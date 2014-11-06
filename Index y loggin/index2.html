@@ -1,0 +1,107 @@
+<head>
+<style>
+body{
+margin: 0 auto;
+}
+img{
+	border:12px solid #ff6600;
+}
+h1{
+	color:#31cc00;
+}
+h2{
+	color:#ff2200;
+}
+a{
+    color:#ff009d;
+	text-decoration: none;
+}
+#duoc_vinculo{
+	color:#000000;
+}
+#encabezado h1 {
+	margin-top: 0;
+    padding-left: 120px;
+    padding-top: 50px;
+    color: #ffffff;
+}
+
+#noticias{
+    background-image: url("./resultados.jpg");
+    background-position:center;
+    background-repeat: no-repeat;
+	height:100%;
+    margin: 0 auto;
+    width: 100%;
+}
+
+#encabezado{
+    background-color: #ff6600;
+    background-image: url("./logo-final-blanco.png");
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: 110px auto;
+    height: 100px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+#encabezado h3 {
+    color: #ffffff;
+    margin-top: -30px;
+    padding-left: 120px;	
+}
+
+.menudes {
+    background: none repeat scroll 0 0 #025ba3;
+    margin: 0 auto 10px;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    width: 70%;
+}
+.menudes a {
+    color: #fff;
+    display: inline-block;
+    padding: 10px 5px;
+    text-decoration: none;
+    width: 25%;
+}
+.marca {
+position: absolute;
+bottom: 4px;
+left: -12.5%; /* Al menos 1/2 del ancho de cada enlace */
+width: 12.5%; /* 1/2 del ancho de cada enlace */
+height: 4px;
+background: #fff;
+transition: 0.5s ease-in-out;
+}
+.menudes a:nth-child(1):hover ~ .marca {
+left: 6.25%; /* 1/4 Ancho del enlace */
+}
+.menudes a:nth-child(2):hover ~ .marca {
+left: 31.25%; /* 1/4 Ancho del enlace + 1 vez ancho enlace */
+}
+.menudes a:nth-child(3):hover ~ .marca {
+left: 56.25%; /* 1/4 Ancho del enlace + 2 veces ancho enlace */
+}
+.menudes a:nth-child(4):hover ~ .marca {
+left: 81.5%; /* 1/4 Ancho del enlace + 3 veces ancho enlace */
+}
+
+</style>
+</head>
+<body>
+<div id="encabezado">
+	<h1> Winner</h1>
+	<h3> Gestor de competencias deportivas</h3>
+</div>
+
+
+<div class="menudes">
+	<a href="">Inicio</a>
+	<a href="">Competencias</a>
+	<a href="">Contacto</a>
+</div>
+<div id="noticias"></div>
+</body>
