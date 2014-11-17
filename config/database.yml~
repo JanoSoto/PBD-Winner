@@ -8,8 +8,8 @@ default: &default
   adapter: mysql2
   encoding: utf8
   pool: 5
-  username: winner
-  password: winner
+  username: root
+  password: 112233
   host: localhost
   
 development:
