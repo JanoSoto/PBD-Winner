@@ -1,0 +1,59 @@
+# Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+
+en:
+  devise:
+    confirmations:
+      confirmed: "Su cuenta a sido confirmada con éxito."
+      send_instructions: "En pocos minutos recibirá un email con instrucciones sobre como confirmar su cuenta."
+      send_paranoid_instructions: "Si su email ya existe en nuestros registros, en pocos minutos recibirá un correo con instrucciones acerca de como confirmar su cuenta."
+    failure:
+      already_authenticated: "Ya inició sesión."
+      inactive: "Su cuenta no está activada todavía."
+      invalid: "Correo o contraseña inválidos."
+      locked: "Su cuenta está bloqueada."
+      last_attempt: "Tiene un intento más antes de que se bloquee su cuenta."
+      not_found_in_database: "Correo o contraseña inválidos."
+      timeout: "Su sesión a expirado. Por favor ingrese nuevamente para continuar."
+      unauthenticated: "Debe registrarse o iniciar sesión para poder continuar."
+      unconfirmed: "Debe confirmar su cuenta antes de continuar."
+    mailer:
+      confirmation_instructions:
+        subject: "Instrucciones de confirmación"
+      reset_password_instructions:
+        subject: "Recomponer su contraseña."
+      unlock_instructions:
+        subject: "Instrucciones de desbloqueo"
+    omniauth_callbacks:
+      failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
+      success: "Successfully authenticated from %{kind} account."
+    passwords:
+      no_token: "No tiene acceso a esta página si no es desde un vínculo de confirmación enviado a su correo. Si usted viene desde un correo electrónico de restablecimiento de contraseña, por favor asegúrese de usó la URL proporcionada."
+      send_instructions: "En pocos minutos recibirá un email con instrucciones sobre como recomponer su constraseña."
+      send_paranoid_instructions: "Si su email ya existe en nuestros registros, en pocos minutos recibirá un correo con instrucciones acerca de como confirmar su cuenta."
+      updated: "Su contraseña a sido modificada exitosamente. Ahora debe iniciar sesión."
+      updated_not_active: "Su contraseña fue modificada exitosamente."
+    registrations:
+      destroyed: "¡Adiós! Su cuenta a sido cancelada exitosamente. Esperamos verlo pronto nuevamente."
+      signed_up: "¡Bienvenido! Se ha registrado exitosamente."
+      signed_up_but_inactive: "Se ha registrado exitosamente. De todas maneras, no puede iniciar sesión pues aún debe activar su cuenta."
+      signed_up_but_locked: "Se ha registrado exitosamente. De todas maneras, no puede iniciar sesión pues su cuenta está bloqueada."
+      signed_up_but_unconfirmed: "Un mensaje de confirmación a sido enviado a su correo electrónico. Por favor, abra el vínculo para activar su cuenta."
+      update_needs_confirmation: "Se actualizó su cuenta exitosamente, pero necesitamos verificar su correo electrónico. Por favor, revise su correo electrónico y haga clic en el vínculo de confirmación para confirmar su nuevo correo."
+      updated: "Se actualizó su cuenta exitosamente."
+    sessions:
+      signed_in: "A iniciado sesión exitosamente."
+      signed_out: "A cerrado su sesión exitosamente."
+    unlocks:
+      send_instructions: "En pocos minutos recibirá un correo electrónico con las instrucciones para desbloquear su cuenta."
+      send_paranoid_instructions: "Si su cuenta ya existe, en pocos minutos recibiar un correo electrónico con instrucciones para desbloquearla."
+      unlocked: "Su cuenta a sido desbloqueada exitosamente. Por favor, inicie sesión para continuar."
+  errors:
+    messages:
+      already_confirmed: "ya a sido confirmado, por favor inicie sesión nuevamente."
+      confirmation_period_expired: "needs to be confirmed within %{period}, please request a new one"
+      expired: "has expired, please request a new one"
+      not_found: "no encontrado"
+      not_locked: "no está bloqueado"
+      not_saved:
+        one: "1 error prohibited this %{resource} from being saved:"
+        other: "%{count} errors prohibited this %{resource} from being saved:"
