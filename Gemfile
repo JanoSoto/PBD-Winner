@@ -40,3 +40,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin]
 
 #Gema para autenticación
 gem 'devise'
+gem 'cancancan'
