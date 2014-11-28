@@ -1,0 +1,39 @@
+<h1>Listing organizadors</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nombre org</th>
+      <th>Apellido pat org</th>
+      <th>Apellido mat org</th>
+      <th>Rut org</th>
+      <th>Sexo org</th>
+      <th>Fecha nac org</th>
+      <th>Email org</th>
+      <th>Foto org</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @organizadors.each do |organizador| %>
+      <tr>
+        <td><%= organizador.nombre_org %></td>
+        <td><%= organizador.apellido_pat_org %></td>
+        <td><%= organizador.apellido_mat_org %></td>
+        <td><%= organizador.rut_org %></td>
+        <td><%= organizador.sexo_org %></td>
+        <td><%= organizador.fecha_nac_org %></td>
+        <td><%= organizador.email_org %></td>
+        <td><%= organizador.foto_org %></td>
+        <td><%= link_to 'Show', organizador %></td>
+        <td><%= link_to 'Edit', edit_organizador_path(organizador) %></td>
+        <td><%= link_to 'Destroy', organizador, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Organizador', new_organizador_path %>

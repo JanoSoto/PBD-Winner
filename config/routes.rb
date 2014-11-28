@@ -1,4 +1,14 @@
 Rails.application.routes.draw do
+  resources :organizadors
+
+  get 'nueva_competencia/paso1'
+  post 'nueva_competencia/paso1'
+
+  get 'nueva_competencia/paso2'
+  post 'nueva_competencia/paso2'
+
+  get 'nueva_competencia/paso3'
+
   get 'home/index'
 
   root :to => 'home#index'

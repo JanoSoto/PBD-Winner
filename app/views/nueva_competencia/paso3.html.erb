@@ -1,0 +1,11 @@
+<h1>Crear Competencia - Participantes - Paso 3</h1>
+
+<div class="formulario">
+	<%= form_tag(multipart: true) do %>
+		<div class="field">
+			<%= label_tag(:participantes, "Subir la plantilla con los participantes (Instituciones deportivas") %> <br>
+			<%= file_field_tag(:archivo) %>
+		</div>
+
+	<% end %>
+</div>

@@ -40,3 +40,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin]
 
 #Gema para autenticación
 gem 'devise'
+
+#Gema para el manejo de archivos xls y csv
+gem 'roo'

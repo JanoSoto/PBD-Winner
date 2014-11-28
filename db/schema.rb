@@ -11,7 +11,43 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141117201153) do
+ActiveRecord::Schema.define(version: 20141128041355) do
+
+  create_table "competencia", force: true do |t|
+    t.string   "nombre_comp"
+    t.text     "descripcion_comp"
+    t.string   "tipo_comp"
+    t.boolean  "ida_vuelta_comp"
+    t.integer  "cant_part_comp"
+    t.date     "fecha_inicio_comp"
+    t.date     "fecha_termino_comp"
+    t.integer  "cant_grupos_comp"
+    t.integer  "cant_fases_comp"
+    t.integer  "cant_arbitros_comp"
+    t.integer  "cant_jug_tit"
+    t.integer  "cant_jug_ban"
+    t.integer  "cant_max_jug_comp"
+    t.integer  "cant_mod_comp"
+    t.boolean  "privacidad_comp"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "organizador_id"
+  end
+
+  add_index "competencia", ["organizador_id"], name: "index_competencia_on_organizador_id", using: :btree
+
+  create_table "organizadors", force: true do |t|
+    t.string   "nombre_org"
+    t.string   "apellido_pat_org"
+    t.string   "apellido_mat_org"
+    t.decimal  "rut_org",          precision: 10, scale: 0
+    t.boolean  "sexo_org"
+    t.date     "fecha_nac_org"
+    t.string   "email_org"
+    t.string   "foto_org"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

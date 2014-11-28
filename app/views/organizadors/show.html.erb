@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Nombre org:</strong>
+  <%= @organizador.nombre_org %>
+</p>
+
+<p>
+  <strong>Apellido pat org:</strong>
+  <%= @organizador.apellido_pat_org %>
+</p>
+
+<p>
+  <strong>Apellido mat org:</strong>
+  <%= @organizador.apellido_mat_org %>
+</p>
+
+<p>
+  <strong>Rut org:</strong>
+  <%= @organizador.rut_org %>
+</p>
+
+<p>
+  <strong>Sexo org:</strong>
+  <%= @organizador.sexo_org %>
+</p>
+
+<p>
+  <strong>Fecha nac org:</strong>
+  <%= @organizador.fecha_nac_org %>
+</p>
+
+<p>
+  <strong>Email org:</strong>
+  <%= @organizador.email_org %>
+</p>
+
+<p>
+  <strong>Foto org:</strong>
+  <%= @organizador.foto_org %>
+</p>
+
+<%= link_to 'Edit', edit_organizador_path(@organizador) %> |
+<%= link_to 'Back', organizadors_path %>
