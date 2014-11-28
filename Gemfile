@@ -46,3 +46,5 @@ gem 'cancancan'
 
 #Gema para el manejo de archivos xls y csv
 gem 'roo'
+
+gem 'twitter-bootstrap-rails'
