@@ -8,6 +8,22 @@ Rails.application.routes.draw do
   post 'nueva_competencia/paso2'
 
   get 'nueva_competencia/paso3'
+  post 'nueva_competencia/paso3'
+
+  get 'nueva_competencia/paso4'
+  post 'nueva_competencia/paso4'
+
+  get 'nueva_competencia/paso5'
+  post 'nueva_competencia/paso5'
+
+  get 'nueva_competencia/paso6'
+  post 'nueva_competencia/paso6'
+
+  get 'nueva_competencia/paso7'
+  post 'nueva_competencia/paso7'
+
+  get 'nueva_competencia/paso8'
+  post 'nueva_competencia/paso8'
 
   get 'home/index'
 

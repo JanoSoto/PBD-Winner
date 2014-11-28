@@ -1,0 +1,31 @@
+<h1>Crear Competencia - Generar Fixture - Paso 8</h1>
+
+<div class="formulario">
+	<div class="fiel">
+		<p>Cantidad total de participantes: <%= $participantes.length%></p>
+		<% if $cant_participantes != $participantes.length %>
+			<span>    La cantidad de participantes en el archivo es distinta a la indicada en un principio</span>
+		<% end %>
+	</div>
+
+	<div class="fiel">
+		<p>Cantidad total de jugadores: <%= $jugadores.length %></p>
+	</div>
+
+	<div class="fiel">
+		<p>Cantidad total de entrenadores: <%= $entrenadores.length%></p>
+	</div>
+
+	<div class="fiel">
+		<p>Cantidad total de jueces: <%= $jueces.length%></p>
+	</div>
+
+	<div class="fiel">
+		<p>Cantidad total de recintos deportivos: <%= $recintos.length%></p>
+	</div>
+
+	<%= form_tag("/nueva_competencia/paso8") do %>
+		<%= submit_tag("Generar fixture") %>
+	<% end %>
+
+</div>

@@ -1,0 +1,33 @@
+<h1>Crear Competencia - Entrenadores - Paso 5</h1>
+
+<div>
+	<% $participantes.each do |participante| %>
+	<p><%= participante['Nombre'] %> - <%= participante['Pais'] %></p>
+	<% end %>
+</div>
+
+<div>
+	<% $jugadores.each do |jugador| %>
+	<p><%= jugador['Institucion Deportiva'] %> - <%= jugador['Nombre'] %> - <%= jugador['Apellido Paterno'] %> - <%= jugador['Apellido Materno'] %> - <%= jugador['RUT'] %> - <%= jugador['Sexo'] %> - <%= jugador['Fecha nacimiento'] %> - <%= jugador['Email'] %></p>
+	<% end %>
+</div>
+
+<div>
+	<% $entrenadores.each do |entrenador| %>
+	<p><%= entrenador['Institucion Deportiva'] %> - <%= entrenador['Nombre'] %> - <%= entrenador['Apellido Paterno'] %> - <%= entrenador['Apellido Materno'] %> - <%= entrenador['RUT'] %> - <%= entrenador['Sexo'] %> - <%= entrenador['Fecha nacimiento'] %> - <%= entrenador['Email'] %></p>
+	<% end %>
+</div>
+
+<div class="formulario">
+	<%= form_tag("/nueva_competencia/paso5", multipart: true) do %>
+		<div class="field">
+			<%= label_tag(:entrenadores, "Subir la plantilla con los Entrenadores de las Instituciones deportivas") %> <br>
+			<%= file_field_tag(:archivo) %>
+		</div>
+
+		<div class="field">
+			<%= submit_tag("Siguiente") %>
+		</div>
+
+	<% end %>
+</div>

@@ -55,5 +55,69 @@ class NuevaCompetenciaController < ApplicationController
 	end
 
 	def paso3
+		$participantes = Array.new
+		if file = params[:archivo]
+			CSV.foreach(file.path, headers: true) do |row|
+				$participantes.push(row.to_hash)
+			end
+		end
+
+		if request.post?
+			redirect_to action: 'paso4'
+		end
+	end
+
+	def paso4
+		$jugadores = Array.new
+		if file = params[:archivo]
+			CSV.foreach(file.path, headers: true) do |row|
+				$jugadores.push(row.to_hash)
+			end
+		end
+		if request.post?
+			redirect_to action: 'paso5'
+		end
+	end
+
+	def paso5
+		$entrenadores = Array.new
+		if file = params[:archivo]
+			CSV.foreach(file.path, headers: true) do |row|
+				$entrenadores.push(row.to_hash)
+			end
+		end
+		if request.post?
+			redirect_to action: 'paso6'
+		end
+	end
+	
+	def paso6
+		$jueces = Array.new
+		if file = params[:archivo]
+			CSV.foreach(file.path, headers: true) do |row|
+				$jueces.push(row.to_hash)
+			end
+		end
+		if request.post?
+			redirect_to action: 'paso7'
+		end
+	end
+	
+	def paso7
+		$recintos = Array.new
+		if file = params[:archivo]
+			CSV.foreach(file.path, headers: true) do |row|
+				$recintos.push(row.to_hash)
+			end
+		end
+		if request.post?
+			redirect_to action: 'paso8'
+		end
+	end
+	
+	def paso8
+		if request.post?
+			redirect_to action: 'paso9'
+		end
 	end
 end

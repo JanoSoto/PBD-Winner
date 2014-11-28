@@ -1,0 +1,28 @@
+<h1>Crear Competencia - Jugadores - Paso 4</h1>
+
+<div>
+	<% $participantes.each do |participante| %>
+	<p><%= participante['Nombre'] %> - <%= participante['Pais'] %></p>
+	<% end %>
+</div>
+
+<div>
+
+	<% $jugadores.each do |jugador| %>
+	<p><%= jugador['Institucion Deportiva'] %> - <%= jugador['Nombre'] %> - <%= jugador['Apellido Paterno'] %> - <%= jugador['Apellido Materno'] %> - <%= jugador['RUT'] %> - <%= jugador['Sexo'] %> - <%= jugador['Fecha nacimiento'] %> - <%= jugador['Email'] %></p>
+	<% end %>
+</div>
+
+<div class="formulario">
+	<%= form_tag("/nueva_competencia/paso4", multipart: true) do %>
+		<div class="field">
+			<%= label_tag(:jugadores, "Subir la plantilla con los Jugadores de las Instituciones deportivas") %> <br>
+			<%= file_field_tag(:archivo) %>
+		</div>
+
+		<div class="field">
+			<%= submit_tag("Siguiente") %>
+		</div>
+
+	<% end %>
+</div>
