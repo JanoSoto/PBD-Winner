@@ -1,15 +1,18 @@
 <h1>Crear Competencia - Participantes - Paso 3</h1>
 
+<div class="alert"><%= @alert %></div>
 <div>
-	<% $participantes.each do |participante| %>
-	<p><%= participante['Nombre'] %> - <%= participante['Pais'] %></p>
+	<% if $participante%>
+		<% $participantes.each do |participante| %>
+		<p><%= participante['Nombre'] %> - <%= participante['Pais'] %></p>
+		<% end %>
 	<% end %>
 </div>
 
 <div class="formulario">
 	<%= form_tag("/nueva_competencia/paso3", multipart: true) do %>
 		<div class="field">
-			<%= label_tag(:participantes, "Subir la plantilla con los participantes (Instituciones deportivas") %> <br>
+			<%= label_tag(:participantes, "Subir la plantilla con los participantes (Instituciones deportivas)") %> <br>
 			<%= file_field_tag(:archivo) %>
 		</div>
 

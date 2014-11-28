@@ -66,12 +66,47 @@ class NuevaCompetenciaController < ApplicationController
 		$participantes = Array.new
 		if file = params[:archivo]
 			CSV.foreach(file.path, headers: true) do |row|
-				$participantes.push(row.to_hash)
+				fila = row.to_hash
+				#if fila['Nombre'] != "" || fila['Pais'] != ""
+				#	$participantes = nil
+				#	break
+				#end
+				$participantes.push(fila)
+			end
+		end
+
+		nombre_repetido = false
+		campo_vacio = false
+
+		$participantes.each do |participante|
+			if participante['Nombre'] == "" || participante['Pais'] == ""
+				campo_vacio = true
+			end
+		end
+
+
+		if $participantes != [] && $participantes != nil
+			for i in (0..$participantes.length-1)
+				for j in(i+1..$participantes.length)
+					if i != j
+						if $participantes[i] != nil && $participantes[j] != nil
+							if $participantes[i]['Nombre'] == $participantes[j]['Nombre']
+								nombre_repetido = true
+							end
+						end
+					end
+				end
 			end
 		end
 
 		if request.post?
-			redirect_to action: 'paso4'
+			if campo_vacio
+				@alert = 'Ningun campo puede estar vacío'
+			elsif nombre_repetido
+				@alert = 'Hay nombres de participantes que están repetidos'
+			else
+				redirect_to action: 'paso4'
+			end
 		end
 	end
 
