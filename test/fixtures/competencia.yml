@@ -1,0 +1,35 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  nombre_comp: MyString
+  descripcion_comp: MyText
+  tipo_comp: MyString
+  ida_vuelta_comp: false
+  cant_part_comp: 1
+  fecha_inicio_comp: 2014-11-28
+  fecha_termino_comp: 2014-11-28
+  cant_grupos_comp: 1
+  cant_fases_comp: 1
+  cant_arbitros_comp: 1
+  cant_jug_tit: 1
+  cant_jug_ban: 1
+  cant_max_jug_comp: 1
+  cant_mod_comp: 1
+  privacidad_comp: false
+
+two:
+  nombre_comp: MyString
+  descripcion_comp: MyText
+  tipo_comp: MyString
+  ida_vuelta_comp: false
+  cant_part_comp: 1
+  fecha_inicio_comp: 2014-11-28
+  fecha_termino_comp: 2014-11-28
+  cant_grupos_comp: 1
+  cant_fases_comp: 1
+  cant_arbitros_comp: 1
+  cant_jug_tit: 1
+  cant_jug_ban: 1
+  cant_max_jug_comp: 1
+  cant_mod_comp: 1
+  privacidad_comp: false

@@ -1,0 +1,33 @@
+<h1>Crear Competencia - Recintos Deportivos - Paso 7</h1>
+
+<div>
+	<% $participantes.each do |participante| %>
+	<p><%= participante['Nombre'] %> - <%= participante['Pais'] %></p>
+	<% end %>
+</div>
+
+<div>
+	<% $jugadores.each do |jugador| %>
+	<p><%= jugador['Institucion Deportiva'] %> - <%= jugador['Nombre'] %> - <%= jugador['Apellido Paterno'] %> - <%= jugador['Apellido Materno'] %> - <%= jugador['RUT'] %> - <%= jugador['Sexo'] %> - <%= jugador['Fecha nacimiento'] %> - <%= jugador['Email'] %></p>
+	<% end %>
+</div>
+
+<div>
+	<% $entrenadores.each do |entrenador| %>
+	<p><%= entrenador['Institucion Deportiva'] %> - <%= entrenador['Nombre'] %> - <%= entrenador['Apellido Paterno'] %> - <%= entrenador['Apellido Materno'] %> - <%= entrenador['RUT'] %> - <%= entrenador['Sexo'] %> - <%= entrenador['Fecha nacimiento'] %> - <%= entrenador['Email'] %></p>
+	<% end %>
+</div>
+
+<div class="formulario">
+	<%= form_tag("/nueva_competencia/paso7", multipart: true) do %>
+		<div class="field">
+			<%= label_tag(:recinto, "Subir la plantilla con los Recintos Deportivos de la Competencia") %> <br>
+			<%= file_field_tag(:archivo) %>
+		</div>
+
+		<div class="field">
+			<%= submit_tag("Siguiente") %>
+		</div>
+
+	<% end %>
+</div>
