@@ -1,10 +1,11 @@
 <h1>Crear Competencia - Datos de la competencia - paso 1</h1>
 
+<div class="alert"><%= @alert %></div>
 <div class="formulario">
 	<%= form_tag("/nueva_competencia/paso1", method: "post") do %>
 		<div class="field">
 			<%= label_tag(:nombre_competencia, "Nombre de la competencia: ") %>
-			<%= text_field_tag(:nombre_competencia) %>
+			<%= text_field_tag(:nombre_competencia, nil, placeholder: 'Nombre', required: true) %>
 		</div>
 		<div class="field" id="tipo_competencia">
 			<%= label_tag(:tipo, "Tipo de competencia: ")%>
@@ -17,7 +18,7 @@
 		</div>
 		<div class="field">
 			<%= label_tag(:ida_vuelta, "¿Encuentros de ida y vuelta? ") %>
-			<%= radio_button_tag(:ida_vuelta, "ida") %>
+			<%= radio_button_tag(:ida_vuelta, "ida", true) %>
 			<%= label_tag(:ida_vuelta_ida, "Sólo ida") %>
 			<%= radio_button_tag(:ida_vuelta, "idaVuelta") %>
 			<%= label_tag(:ida_vuelta_vuelta, "Ida y vuelta") %>
@@ -48,14 +49,18 @@
 			<%= label_tag(:privacidad, "¿Competencia privada?") %>
 			<%= radio_button_tag(:privacidad, "si") %>
 			<%= label_tag(:privacidad_si, "Si") %>
-			<%= radio_button_tag(:privacidad, "no") %>
+			<%= radio_button_tag(:privacidad, "no", true) %>
 			<%= label_tag(:privacidad_no, "No") %>
 		</div>
 
-		<%= submit_tag("Siguiente") %>
+		<div id="botonEnviar">
+			<%= submit_tag("Siguiente", id: 'botonEnviar', onsubmit: 'return validaFormularios(this)') %>
+		</div>
 	<% end %>
 </div>
 
+<h1 id="fecha1"></h1>
+<h1 id="fecha2"></h1>
 <script type="text/javascript">
 	document.getElementById("cant_grupos").style.display = "none";
 	document.getElementById("cant_part_torneo").style.display = "none";
@@ -80,4 +85,5 @@
 
 
 	}
+
 </script>

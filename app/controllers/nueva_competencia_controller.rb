@@ -31,7 +31,11 @@ class NuevaCompetenciaController < ApplicationController
 		$privacidad = params[:privacidad]
 
 		if request.post?
-			redirect_to action: 'paso2'
+			if $fecha_fin < $fecha_inicio
+				@alert = 'La fecha de inicio es posterior a la fecha de fin. Por favor, ingrese un fecha valida'
+			else
+				redirect_to action: 'paso2'
+			end
 		end
 	end
 
@@ -50,7 +54,11 @@ class NuevaCompetenciaController < ApplicationController
 		end
 
 		if request.post?
-			redirect_to action: 'paso3'
+			if $cant_jugadores.to_i < $cant_titulares.to_i + $cant_banca.to_i
+				@alert = 'La cantidad máxima de jugadores es inferior a la cantidad de jugadores titulares más la cantidad de jugadores en banca'+$cant_jugadores + $cant_titulares + $cant_banca	
+			else
+				redirect_to action: 'paso3'
+			end
 		end
 	end
 

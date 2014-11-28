@@ -1,6 +1,6 @@
 <h1>Crear Competencia - Datos de la competencia - paso 2</h1>
 
-
+<div class="alert"><%= @alert %></div>
 <div class="formulario">
 	<%= form_tag("/nueva_competencia/paso2", method: "post") do %>
 		<div class="field">
@@ -20,7 +20,7 @@
 
 		<div class="field">
 			<%= label_tag(:jug_banca, "Jugadores en la banca por encuentro: ") %>
-			<%= number_field(:banca, :jug_banca, in: 2..11, step: 1, value: 2) %>
+			<%= number_field(:banca, :jug_banca, in: 0..11, step: 1, value: 0) %>
 		</div>
 
 		<%= submit_tag("Siguiente")%>
