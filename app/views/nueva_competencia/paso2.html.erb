@@ -1,28 +1,38 @@
-<h1>Crear Competencia - Datos de la competencia - paso 2</h1>
+<div class="container">
 
-<div class="alert"><%= @alert %></div>
-<div class="formulario">
-	<%= form_tag("/nueva_competencia/paso2", method: "post") do %>
-		<div class="field">
-			<%= label_tag(:cant_arbitros, "Cantidad de árbitros por encuentro: ") %>
-			<%= number_field(:arbitros, :cant_arbitros, in: 1..10, step: 1, value: 1) %>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3>Crear Competencia - Datos de la competencia - paso 2</h3>
 		</div>
+		<div class="panel-body">
+			<% if @alert %>
+				<div class="alert alert-danger" role="alert">
+					<b>ERROR: </b><%= @alert %>
+				</div>
+			<% end %>
+			<%= form_tag("/nueva_competencia/paso2", method: "post") do %>
+				<div class="field">
+					<%= label_tag(:cant_arbitros, "Cantidad de árbitros por encuentro: ") %>
+					<%= number_field(:arbitros, :cant_arbitros, in: 1..10, step: 1, value: 1) %>
+				</div>
 
-		<div class="field">
-			<%= label_tag(:cant_jugadores, "Cantidad de jugadores por plantel: ") %>
-			<%= number_field(:jugadores, :cant_jugadores, in: 2..35, step: 1, value: 2) %>
+				<div class="field">
+					<%= label_tag(:cant_jugadores, "Cantidad de jugadores por plantel: ") %>
+					<%= number_field(:jugadores, :cant_jugadores, in: 2..35, step: 1, value: 2) %>
+				</div>
+
+				<div class="field">
+					<%= label_tag(:jug_titulares, "Jugadores titulares por encuentro: ") %>
+					<%= number_field(:titulares, :jug_titulares, in: 2..11, step: 1, value: 2) %>
+				</div>
+
+				<div class="field">
+					<%= label_tag(:jug_banca, "Jugadores en la banca por encuentro: ") %>
+					<%= number_field(:banca, :jug_banca, in: 0..11, step: 1, value: 0) %>
+				</div>
+
+				<%= submit_tag("Siguiente")%>
+			<% end %>
 		</div>
-
-		<div class="field">
-			<%= label_tag(:jug_titulares, "Jugadores titulares por encuentro: ") %>
-			<%= number_field(:titulares, :jug_titulares, in: 2..11, step: 1, value: 2) %>
-		</div>
-
-		<div class="field">
-			<%= label_tag(:jug_banca, "Jugadores en la banca por encuentro: ") %>
-			<%= number_field(:banca, :jug_banca, in: 0..11, step: 1, value: 0) %>
-		</div>
-
-		<%= submit_tag("Siguiente")%>
-	<% end %>
+	</div>
 </div>

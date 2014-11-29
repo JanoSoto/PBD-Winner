@@ -1,6 +1,107 @@
-<h1>Crear Competencia - Entrenadores - Paso 5</h1>
+<style type="text/css">
+	
+	#tablas-resumen{
+		height: 28em;
+		overflow-y: auto;
+		overflow-x: hidden;
+	}
 
-<div class="alert"><%= @alert %></div>
+</style>
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-7">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3>Crear Competencia - Entrenadores - Paso 5</h3>
+				</div>
+				<div class="panel-body">
+					<div class="alert alert-info" role="alert">
+						<p>Consideraciones con respecto al archivo a cargar: </p>
+						<ul>
+							<li>Puede ser formato csv, Excel o Libre Oficce</li>
+							<li>La primera fila del archivo debe contener las cabeceras <b>Institucion Deportiva</b>, <b>Nombre</b>, <b>Apellido Paterno</b>, <b>Apellido Materno</b>, <b>RUT</b>, <b>Sexo</b>, <b>Fecha nacimiento</b> y <b>Email</b>, tal cual están escritos</li>
+							<li>Ningún campo puede estar vacío</li>
+						</ul>
+					</div>
+
+					<% if @alert %>
+						<div class="alert alert-danger" role="alert">
+							<b>ERROR: </b><%= @alert %>
+						</div>
+					<% end %>
+
+					<%= form_tag("/nueva_competencia/paso5", multipart: true) do %>
+						<div class="field">
+							<%= label_tag(:entrenadores, "Subir la plantilla con los Entrenadores de las Instituciones deportivas") %> <br>
+							<%= file_field_tag(:archivo, required: true) %>
+						</div>
+
+						<div class="field">
+							<%= submit_tag("Siguiente") %>
+						</div>
+
+					<% end %>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-5">
+			<div id="tablas-resumen" role="tabpanel">
+
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs" role="tablist">
+					<li role="presentation" class="active"><a href="#participantes" aria-controls="participantes" role="tab" data-toggle="tab">Participantes</a></li>
+					<li role="presentation"><a href="#jugadores" aria-controls="jugadores" role="tab" data-toggle="tab">Jugadores</a></li>
+				</ul>
+
+				<!-- Tab panes -->
+				<div class="tab-content">
+					<div role="tabpanel" class="tab-pane fade in active" id="participantes">
+						<table class="table table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>Nombre</th>
+									<th>País</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% $participantes.each do |participante| %>
+									<tr>
+										<td><%= participante['Nombre'] %></td>
+										<td><%= participante['Pais'] %></td>
+									</tr>
+								<% end %>						
+							</tbody>
+						</table>
+					</div>
+					<div role="tabpanel" class="tab-pane fade" id="jugadores">
+						<table class="table table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>Nombre</th>
+									<th>Apellido</th>
+									<th>Institución</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% $jugadores.each do |jugador| %>
+									<tr>
+										<td><%= jugador['Nombre'] %></td>
+										<td><%= jugador['Apellido Paterno'] %></td>
+										<td><%= jugador['Institucion Deportiva'] %></td>
+									</tr>
+								<% end %>						
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
 <div>
 	<% $participantes.each do |participante| %>
 	<p><%= participante['Nombre'] %> - <%= participante['Pais'] %></p>
@@ -16,19 +117,5 @@
 <div>
 	<% $entrenadores.each do |entrenador| %>
 	<p><%= entrenador['Institucion Deportiva'] %> - <%= entrenador['Nombre'] %> - <%= entrenador['Apellido Paterno'] %> - <%= entrenador['Apellido Materno'] %> - <%= entrenador['RUT'] %> - <%= entrenador['Sexo'] %> - <%= entrenador['Fecha nacimiento'] %> - <%= entrenador['Email'] %></p>
-	<% end %>
-</div>
-
-<div class="formulario">
-	<%= form_tag("/nueva_competencia/paso5", multipart: true) do %>
-		<div class="field">
-			<%= label_tag(:entrenadores, "Subir la plantilla con los Entrenadores de las Instituciones deportivas") %> <br>
-			<%= file_field_tag(:archivo) %>
-		</div>
-
-		<div class="field">
-			<%= submit_tag("Siguiente", { disable_with: "Please wait..." }) %>
-		</div>
-
 	<% end %>
 </div>

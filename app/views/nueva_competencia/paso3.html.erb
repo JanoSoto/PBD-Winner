@@ -1,24 +1,42 @@
-<h1>Crear Competencia - Participantes - Paso 3</h1>
 
-<div class="alert"><%= @alert %></div>
-<div>
-	<% if $participante%>
-		<% $participantes.each do |participante| %>
-		<p><%= participante['Nombre'] %> - <%= participante['Pais'] %></p>
+<div class="container">
+	<div>
+		<% if $participante%>
+			<% $participantes.each do |participante| %>
+			<p><%= participante['Nombre'] %> - <%= participante['Pais'] %></p>
+			<% end %>
 		<% end %>
-	<% end %>
-</div>
+	</div>
 
-<div class="formulario">
-	<%= form_tag("/nueva_competencia/paso3", multipart: true) do %>
-		<div class="field">
-			<%= label_tag(:participantes, "Subir la plantilla con los participantes (Instituciones deportivas)") %> <br>
-			<%= file_field_tag(:archivo) %>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3>Crear Competencia - Participantes - Paso 3</h3>
 		</div>
+		<div class="panel-body">
+			<div class="alert alert-info" role="alert">
+				<p>Consideraciones con respecto al archivo a cargar: </p>
+				<ul>
+					<li>Puede ser formato csv, Excel o Libre Oficce</li>
+					<li>La primera fila del archivo debe contener las cabeceras <b>Nombre</b> y <b>Pais</b>, tal cual están escritos</li>
+					<li>Ningún campo puede estar vacío</li>
+				</ul>
+			</div>
+			<% if @alert %>
+				<div class="alert alert-danger" role="alert">
+					<b>ERROR: </b><%= @alert %>
+				</div>
+			<% end %>
+			<%= form_tag("/nueva_competencia/paso3", multipart: true) do %>
+				<div class="field">
+					<%= label_tag(:participantes, "Subir la plantilla con los participantes (Instituciones deportivas)") %> <br>
+					<%= file_field_tag(:archivo, required: true) %>
+				</div>
 
-		<div class="field">
-			<%= submit_tag("Siguiente") %>
+				<div class="field">
+					<%= submit_tag("Siguiente") %>
+				</div>
+
+			<% end %>
 		</div>
-
-	<% end %>
+	</div>
 </div>

@@ -1,31 +1,176 @@
-<h1>Crear Competencia - Generar Fixture - Paso 8</h1>
+<style type="text/css">
+	
+	#tablas-resumen{
+		height: 28em;
+		overflow-y: auto;
+		overflow-x: hidden;
+	}
 
-<div class="formulario">
-	<div class="fiel">
-		<p>Cantidad total de participantes: <%= $participantes.length%></p>
-		<% if $cant_participantes != $participantes.length %>
-			<span>    La cantidad de participantes en el archivo es distinta a la indicada en un principio</span>
-		<% end %>
+</style>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-7">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3>Crear Competencia - Generar Fixture - Paso 8</h3>
+				</div>
+				<div class="panel-body">
+					<%= form_tag("/nueva_competencia/paso8") do %>
+						<div class="field">
+							<div><b>Cantidad total de participantes:</b> <%= $participantes.length %></div>		
+							<% if $cant_participantes != $participantes.length %>
+								<% disable_part = true %>
+								<h5><span id="alerta" class="label label-warning">    
+									La cantidad de participantes en el archivo es distinta a la indicada en un principio
+								</span></h5>
+							<% end %>
+						</div>
+
+						<div class="field">
+							<p><b>Cantidad total de jugadores:</b> <%= $jugadores.length %></p>
+						</div>
+
+						<div class="field">
+							<p><b>Cantidad total de entrenadores:</b> <%= $entrenadores.length%></p>
+						</div>
+
+						<div class="field">
+							<p><b>Cantidad total de jueces:</b> <%= $jueces.length%></p>
+						</div>
+
+						<div class="field">
+							<p><b>Cantidad total de recintos deportivos:</b> <%= $recintos.length%></p>
+						</div>
+
+						<% if disable_part %>
+							<%= submit_tag("Generar fixture", data: { confirm: "La cantidad de participantes que usted indicó en un principio no coinciden con los obtenidos desde el documento cargado en el sistema.\n\n¿Desea continuar de todas formas?\n\nSi desea continuar, se considerarán sólo los datos obtenidos desde el archivo." }) %>
+						<% else %>
+							<%= submit_tag("Generar fixture") %>
+						<% end %>
+					<% end %>
+
+				</div>
+			</div>
+		</div>
+		<div class="col-md-5">
+			<div id="tablas-resumen" role="tabpanel">
+				
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs" role="tablist">
+					<li role="presentation" class="active"><a href="#participantes" aria-controls="participantes" role="tab" data-toggle="tab">Participantes</a></li>
+					<li role="presentation"><a href="#jugadores" aria-controls="jugadores" role="tab" data-toggle="tab">Jugadores</a></li>
+					<li role="presentation"><a href="#entrenadores" aria-controls="entrenadores" role="tab" data-toggle="tab">Entrenadores</a></li>
+					<li role="presentation"><a href="#jueces" aria-controls="jueces" role="tab" data-toggle="tab">Jueces</a></li>
+					<li role="presentation"><a href="#recintos" aria-controls="recintos" role="tab" data-toggle="tab">Recintos Deportivos</a></li>
+				</ul>
+
+				<!-- Tab panes -->
+				<div class="tab-content">
+					<div role="tabpanel" class="tab-pane fade in active" id="participantes">
+						<table class="table table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>Nombre</th>
+									<th>País</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% $participantes.each do |participante| %>
+									<tr>
+										<td><%= participante['Nombre'] %></td>
+										<td><%= participante['Pais'] %></td>
+									</tr>
+								<% end %>						
+							</tbody>
+						</table>
+					</div>
+					<div role="tabpanel" class="tab-pane fade" id="jugadores">
+						<table class="table table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>Nombre</th>
+									<th>Apellido</th>
+									<th>Institución</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% $jugadores.each do |jugador| %>
+									<tr>
+										<td><%= jugador['Nombre'] %></td>
+										<td><%= jugador['Apellido Paterno'] %></td>
+										<td><%= jugador['Institucion Deportiva'] %></td>
+									</tr>
+								<% end %>						
+							</tbody>
+						</table>
+					</div>
+					<div role="tabpanel" class="tab-pane fade" id="entrenadores">
+						<table class="table table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>Nombre</th>
+									<th>Apellido</th>
+									<th>Institución</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% $entrenadores.each do |entrenador| %>
+									<tr>
+										<td><%= entrenador['Nombre'] %></td>
+										<td><%= entrenador['Apellido Paterno'] %></td>
+										<td><%= entrenador['Institucion Deportiva'] %></td>
+									</tr>
+								<% end %>						
+							</tbody>
+						</table>
+					</div>
+					<div role="tabpanel" class="tab-pane fade" id="jueces">
+						<table class="table table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>Nombre</th>
+									<th>Apellido</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% $jueces.each do |juez| %>
+									<tr>
+										<td><%= juez['Nombre'] %></td>
+										<td><%= juez['Apellido Paterno'] %></td>
+									</tr>
+								<% end %>						
+							</tbody>
+						</table>
+					</div>
+					<div role="tabpanel" class="tab-pane fade" id="recintos">
+						<table class="table table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>Nombre</th>
+									<th>Ciudad</th>
+									<th>País</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% $recintos.each do |recinto| %>
+									<tr>
+										<td><%= recinto['Nombre'] %></td>
+										<td><%= recinto['Ciudad'] %></td>
+										<td><%= recinto['Pais'] %></td>
+									</tr>
+								<% end %>						
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-
-	<div class="fiel">
-		<p>Cantidad total de jugadores: <%= $jugadores.length %></p>
-	</div>
-
-	<div class="fiel">
-		<p>Cantidad total de entrenadores: <%= $entrenadores.length%></p>
-	</div>
-
-	<div class="fiel">
-		<p>Cantidad total de jueces: <%= $jueces.length%></p>
-	</div>
-
-	<div class="fiel">
-		<p>Cantidad total de recintos deportivos: <%= $recintos.length%></p>
-	</div>
-
-	<%= form_tag("/nueva_competencia/paso8") do %>
-		<%= submit_tag("Generar fixture") %>
-	<% end %>
-
 </div>
+
+<script type="text/javascript">
+	if (document.getElementById('alerta')){
+
+	}
+</script>

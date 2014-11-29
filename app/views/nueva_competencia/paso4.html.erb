@@ -1,6 +1,85 @@
-<h1>Crear Competencia - Jugadores - Paso 4</h1>
+<style type="text/css">
+	
+	#tablas-resumen{
+		height: 28em;
+		overflow-y: auto;
+		overflow-x: hidden;
+	}
 
-<div class="alert"><%= @alert %></div>
+</style>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-7">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3>Crear Competencia - Jugadores - Paso 4</h3>
+				</div>
+				<div class="panel-body">
+					<div class="alert alert-info" role="alert">
+						<p>Consideraciones con respecto al archivo a cargar: </p>
+						<ul>
+							<li>Puede ser formato csv, Excel o Libre Oficce</li>
+							<li>La primera fila del archivo debe contener las cabeceras <b>Institucion Deportiva</b>, <b>Nombre</b>, <b>Apellido Paterno</b>, <b>Apellido Materno</b>, <b>RUT</b>, <b>Sexo</b>, <b>Fecha nacimiento</b> y <b>Email</b>, tal cual están escritos</li>
+							<li>Ningún campo puede estar vacío</li>
+						</ul>
+					</div>
+					<% if @alert %>
+						<div class="alert alert-danger" role="alert">
+							<b>ERROR: </b><%= @alert %>
+						</div>
+					<% end %>
+					<%= form_tag("/nueva_competencia/paso4", multipart: true) do %>
+						<div class="field">
+							<%= label_tag(:jugadores, "Subir la plantilla con los Jugadores de las Instituciones deportivas") %> <br>
+							<%= file_field_tag(:archivo, required: true) %>
+						</div>
+
+						<div class="field">
+							<%= submit_tag("Siguiente") %>
+						</div>
+
+					<% end %>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-5">
+			<div id="tablas-resumen" role="tabpanel">
+
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs" role="tablist">
+					<li role="presentation" class="active"><a href="#home" aria-controls="participantes" role="tab" data-toggle="tab">Participantes</a></li>
+				</ul>
+
+				<!-- Tab panes -->
+				<div class="tab-content">
+					<div role="tabpanel" class="tab-pane active" id="participantes">
+						<table class="table table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>Nombre</th>
+									<th>País</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% $participantes.each do |participante| %>
+									<tr>
+										<td><%= participante['Nombre'] %></td>
+										<td><%= participante['Pais'] %></td>
+									</tr>
+								<% end %>						
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
 <div>
 	<% #if $participante%>
 		<% $participantes.each do |participante| %>
@@ -13,19 +92,5 @@
 
 	<% $jugadores.each do |jugador| %>
 	<p><%= jugador['Institucion Deportiva'] %> - <%= jugador['Nombre'] %> - <%= jugador['Apellido Paterno'] %> - <%= jugador['Apellido Materno'] %> - <%= jugador['RUT'] %> - <%= jugador['Sexo'] %> - <%= jugador['Fecha nacimiento'] %> - <%= jugador['Email'] %></p>
-	<% end %>
-</div>
-
-<div class="formulario">
-	<%= form_tag("/nueva_competencia/paso4", multipart: true) do %>
-		<div class="field">
-			<%= label_tag(:jugadores, "Subir la plantilla con los Jugadores de las Instituciones deportivas") %> <br>
-			<%= file_field_tag(:archivo) %>
-		</div>
-
-		<div class="field">
-			<%= submit_tag("Siguiente") %>
-		</div>
-
 	<% end %>
 </div>

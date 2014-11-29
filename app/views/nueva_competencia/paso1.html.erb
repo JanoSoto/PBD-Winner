@@ -1,66 +1,77 @@
-<h1>Crear Competencia - Datos de la competencia - paso 1</h1>
 
-<div class="alert"><%= @alert %></div>
-<div class="formulario">
-	<%= form_tag("/nueva_competencia/paso1", method: "post") do %>
-		<div class="field">
-			<%= label_tag(:nombre_competencia, "Nombre de la competencia: ") %>
-			<%= text_field_tag(:nombre_competencia, nil, placeholder: 'Nombre', required: true) %>
-		</div>
-		<div class="field" id="tipo_competencia">
-			<%= label_tag(:tipo, "Tipo de competencia: ")%>
-			<%= radio_button_tag(:tipo, "liga", true) %>
-			<%= label_tag(:tipo_liga, "Liga") %>
-			<%= radio_button_tag(:tipo, "torneo") %>
-			<%= label_tag(:tipo_torneo, "Torneo") %>
-			<%= radio_button_tag(:tipo, "copa")%>
-			<%= label_tag(:tipo_copa, "Copa")%>
-		</div>
-		<div class="field">
-			<%= label_tag(:ida_vuelta, "¿Encuentros de ida y vuelta? ") %>
-			<%= radio_button_tag(:ida_vuelta, "ida", true) %>
-			<%= label_tag(:ida_vuelta_ida, "Sólo ida") %>
-			<%= radio_button_tag(:ida_vuelta, "idaVuelta") %>
-			<%= label_tag(:ida_vuelta_vuelta, "Ida y vuelta") %>
-		</div>
-		
-		<div class="field" id="cant_part_normal">
-			<%= label_tag(:participantes, "Cantidad de participantes: ") %>
-			<%= number_field(:cant_participantes, :participantes, in: 2..64, step: 1, value: 2) %>
-		</div>
-		<div class="field" id="cant_part_torneo">
-			<%= label_tag(:participantes_torneo, "Cantidad de participantes: ")%>
-			<%= select_tag(:participantes_torneo, options_for_select([['2',2], ['4',4], ['8',8], ['16',16], ['32',32], ['64',64]])) %>
-		</div>
+<div class="container">
+	<div class=" panel panel-default">
+		<div class="panel-heading">
+			<h3>Crear Competencia - Datos de la competencia - paso 1</h3>
 
-		<div class="field" id="cant_grupos">
-			<%= label_tag(:grupos, "Cantidad de grupos: ") %>
-			<%= number_field(:cant_grupos, :grupos, in: 2..10, step: 1, value: 2) %>
 		</div>
-		<div class="field">
-			<%= label_tag(:fecha_inicio, "Fecha de inicio: ") %>
-			<%= date_select(:fecha1, :fecha_inicio, :order => [:day, :month, :year], start_year: Date.today.year, end_year: Date.today.year+5) %>
-		</div>
-		<div class="field">
-			<%= label_tag(:fecha_fin, "Fecha de término: ") %>
-			<%= date_select(:fecha2, :fecha_fin, :order => [:day, :month, :year], start_year: Date.today.year, end_year: Date.today.year+5) %>
-		</div>
-		<div class="field">
-			<%= label_tag(:privacidad, "¿Competencia privada?") %>
-			<%= radio_button_tag(:privacidad, "si") %>
-			<%= label_tag(:privacidad_si, "Si") %>
-			<%= radio_button_tag(:privacidad, "no", true) %>
-			<%= label_tag(:privacidad_no, "No") %>
-		</div>
+		<div class="panel-body">
 
-		<div id="botonEnviar">
-			<%= submit_tag("Siguiente", id: 'botonEnviar', onsubmit: 'return validaFormularios(this)') %>
+			<% if @alert %>
+				<div class="alert alert-danger" role="alert">
+					<b>ERROR: </b><%= @alert %>
+				</div>
+			<% end %>
+			<%= form_tag("/nueva_competencia/paso1", method: "post") do %>
+				<div class="field">
+					<%= label_tag(:nombre_competencia, "Nombre de la competencia: ") %>
+					<%= text_field_tag(:nombre_competencia, nil, placeholder: 'Nombre', required: true) %>
+				</div>
+				<div class="field" id="tipo_competencia">
+					<%= label_tag(:tipo, "Tipo de competencia: ")%>
+					<%= radio_button_tag(:tipo, "liga", true) %>
+					<%= label_tag(:tipo_liga, "Liga") %>
+					<%= radio_button_tag(:tipo, "torneo") %>
+					<%= label_tag(:tipo_torneo, "Torneo") %>
+					<%= radio_button_tag(:tipo, "copa")%>
+					<%= label_tag(:tipo_copa, "Copa")%>
+				</div>
+				<div class="field">
+					<%= label_tag(:ida_vuelta, "¿Encuentros de ida y vuelta? ") %>
+					<%= radio_button_tag(:ida_vuelta, "ida", true) %>
+					<%= label_tag(:ida_vuelta_ida, "Sólo ida") %>
+					<%= radio_button_tag(:ida_vuelta, "idaVuelta") %>
+					<%= label_tag(:ida_vuelta_vuelta, "Ida y vuelta") %>
+				</div>
+				
+				<div class="field" id="cant_part_normal">
+					<%= label_tag(:participantes, "Cantidad de participantes: ") %>
+					<%= number_field(:cant_participantes, :participantes, in: 2..64, step: 1, value: 2) %>
+				</div>
+				<div class="field" id="cant_part_torneo">
+					<%= label_tag(:participantes_torneo, "Cantidad de participantes: ")%>
+					<%= select_tag(:participantes_torneo, options_for_select([['2',2], ['4',4], ['8',8], ['16',16], ['32',32], ['64',64]])) %>
+				</div>
+
+				<div class="field" id="cant_grupos">
+					<%= label_tag(:grupos, "Cantidad de grupos: ") %>
+					<%= number_field(:cant_grupos, :grupos, in: 2..10, step: 1, value: 2) %>
+				</div>
+				<div class="field">
+					<%= label_tag(:fecha_inicio, "Fecha de inicio: ") %>
+					<%= date_select(:fecha1, :fecha_inicio, :order => [:day, :month, :year], start_year: Date.today.year, end_year: Date.today.year+5) %>
+				</div>
+				<div class="field">
+					<%= label_tag(:fecha_fin, "Fecha de término: ") %>
+					<%= date_select(:fecha2, :fecha_fin, :order => [:day, :month, :year], start_year: Date.today.year, end_year: Date.today.year+5) %>
+				</div>
+				<div class="field">
+					<%= label_tag(:privacidad, "¿Competencia privada?") %>
+					<%= radio_button_tag(:privacidad, "si") %>
+					<%= label_tag(:privacidad_si, "Si") %>
+					<%= radio_button_tag(:privacidad, "no", true) %>
+					<%= label_tag(:privacidad_no, "No") %>
+				</div>
+
+				<div id="botonEnviar">
+					<%= submit_tag("Siguiente", id: 'botonEnviar', onsubmit: 'return validaFormularios(this)') %>
+				</div>
+			<% end %>
 		</div>
-	<% end %>
+	</div>
 </div>
 
-<h1 id="fecha1"></h1>
-<h1 id="fecha2"></h1>
+
 <script type="text/javascript">
 	document.getElementById("cant_grupos").style.display = "none";
 	document.getElementById("cant_part_torneo").style.display = "none";
