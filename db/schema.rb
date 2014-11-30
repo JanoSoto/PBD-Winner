@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(version: 20141128233602) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "role"
     t.string   "username"
   end
 

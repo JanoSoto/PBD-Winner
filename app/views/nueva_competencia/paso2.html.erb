@@ -1,38 +1,103 @@
+<style type="text/css">
+	
+	.formulario-creacion{
+		height: 32em;
+		overflow-y: auto;
+		overflow-x: hidden;
+	}
+
+</style>
+
 <div class="container">
+	<div class="row">
+		<div class="col-md-7">
+			<div class="formulario-creacion panel panel-default">
+				<div class="panel-heading">
+					<h3>Crear Competencia - Datos de la competencia - paso 2</h3>
+				</div>
+				<div class="panel-body">
+					<% if @alert %>
+						<div class="alert alert-danger" role="alert">
+							<b>ERROR: </b><%= @alert %>
+						</div>
+					<% end %>
+					<%= form_tag("/nueva_competencia/paso2", method: "post") do %>
+						<div class="field">
+							<%= label_tag(:cant_arbitros, "Cantidad de árbitros por encuentro: ") %>
+							<%= number_field(:arbitros, :cant_arbitros, in: 1..10, step: 1, value: 1) %>
+						</div>
 
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h3>Crear Competencia - Datos de la competencia - paso 2</h3>
+						<div class="field">
+							<%= label_tag(:cant_jugadores, "Cantidad de jugadores por plantel: ") %>
+							<%= number_field(:jugadores, :cant_jugadores, in: 2..35, step: 1, value: 2) %>
+						</div>
+
+						<div class="field">
+							<%= label_tag(:jug_titulares, "Jugadores titulares por encuentro: ") %>
+							<%= number_field(:titulares, :jug_titulares, in: 2..11, step: 1, value: 2) %>
+						</div>
+
+						<div class="field">
+							<%= label_tag(:jug_banca, "Jugadores en la banca por encuentro: ") %>
+							<%= number_field(:banca, :jug_banca, in: 0..11, step: 1, value: 0) %>
+						</div>
+						<br><br><br>
+						<button class="col-md-offset-1">
+							<%= link_to("Volver", :back) %>
+						</button>
+						<span class="col-md-offset-7">
+							<%= submit_tag("Siguiente")%>
+						</span>
+					<% end %>
+				</div>
+			</div>
 		</div>
-		<div class="panel-body">
-			<% if @alert %>
-				<div class="alert alert-danger" role="alert">
-					<b>ERROR: </b><%= @alert %>
+		<div class="col-md-5">
+			<div class="formulario-creacion panel panel-default">
+				<div class="panel-heading">
+					<h3>Datos ingresados de la competencia</h3>
 				</div>
-			<% end %>
-			<%= form_tag("/nueva_competencia/paso2", method: "post") do %>
-				<div class="field">
-					<%= label_tag(:cant_arbitros, "Cantidad de árbitros por encuentro: ") %>
-					<%= number_field(:arbitros, :cant_arbitros, in: 1..10, step: 1, value: 1) %>
+				<div class="panel-body">
+					<table class="table table-bordered table-hover">
+						<tbody>
+							<tr>
+								<td><b>Nombre de la competencia:</b></td>
+								<td><%= $nombre_competencia %></td>
+							</tr>
+							<tr>
+								<td><b>Tipo de competencia:</b></td>
+								<td><%= $tipo_competencia.swapcase %></td>
+							</tr>
+							<tr>
+								<td><b>¿Ida y vuelta?</b></td>
+								<td><%= $ida_vuelta.swapcase %></td>
+							</tr>
+							<tr>
+								<td><b>Cantidad de participantes:</b></td>
+								<td><%= $cant_participantes %></td>
+							</tr>
+							<% if $tipo_competencia == "copa" %>
+								<tr>
+									<td><b>Cantidad de grupos:</b></td>
+									<td><%= $cant_grupos %></td>
+								</tr>
+							<% end %>
+							<tr>
+								<td><b>Fecha de inicio:</b></td>
+								<td><%= $fecha_inicio%></td>
+							</tr>
+							<tr>
+								<td><b>Fecha de fin:</b></td>
+								<td><%= $fecha_fin%></td>
+							</tr>
+							<tr>
+								<td><b>Privacidad:</b></td>
+								<td><%= $privacidad.swapcase%></td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
-
-				<div class="field">
-					<%= label_tag(:cant_jugadores, "Cantidad de jugadores por plantel: ") %>
-					<%= number_field(:jugadores, :cant_jugadores, in: 2..35, step: 1, value: 2) %>
-				</div>
-
-				<div class="field">
-					<%= label_tag(:jug_titulares, "Jugadores titulares por encuentro: ") %>
-					<%= number_field(:titulares, :jug_titulares, in: 2..11, step: 1, value: 2) %>
-				</div>
-
-				<div class="field">
-					<%= label_tag(:jug_banca, "Jugadores en la banca por encuentro: ") %>
-					<%= number_field(:banca, :jug_banca, in: 0..11, step: 1, value: 0) %>
-				</div>
-
-				<%= submit_tag("Siguiente")%>
-			<% end %>
+			</div>
 		</div>
 	</div>
 </div>

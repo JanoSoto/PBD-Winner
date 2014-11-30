@@ -1,72 +1,154 @@
+<style type="text/css">
+	
+	.formulario-creacion{
+		height: 40em;
+		overflow-y: auto;
+		overflow-x: hidden;
+	}
+
+	.img-responsive{
+		height: 10em;
+	}
+
+</style>
 
 <div class="container">
-	<div class=" panel panel-default">
-		<div class="panel-heading">
-			<h3>Crear Competencia - Datos de la competencia - paso 1</h3>
+	<div class="row">
+		<div class="col-md-7">
+			<div class="formulario-creacion panel panel-default">
+				<div class="panel-heading">
+					<h3>Crear Competencia - Datos de la competencia - paso 1</h3>
 
+				</div>
+				<div class="panel-body">
+
+					<% if @alert %>
+						<div class="alert alert-danger" role="alert">
+							<b>ERROR: </b><%= @alert %>
+						</div>
+					<% end %>
+					<%= form_tag("/nueva_competencia/paso1", method: "post") do %>
+						<div class="field">
+							<%= label_tag(:nombre_competencia, "Nombre de la competencia: ") %>
+							<%= text_field_tag(:nombre_competencia, nil, placeholder: 'Nombre', required: true) %>
+						</div>
+						<div class="field" id="tipo_competencia">
+							<%= label_tag(:tipo, "Tipo de competencia: ")%>
+							<%= radio_button_tag(:tipo, "liga", true) %>
+							<%= label_tag(:tipo_liga, "Liga") %>
+							<%= radio_button_tag(:tipo, "torneo") %>
+							<%= label_tag(:tipo_torneo, "Torneo") %>
+							<%= radio_button_tag(:tipo, "copa")%>
+							<%= label_tag(:tipo_copa, "Copa")%>
+						</div>
+						<div class="field">
+							<%= label_tag(:ida_vuelta, "¿Encuentros de ida y vuelta? ") %>
+							<%= radio_button_tag(:ida_vuelta, "ida", true) %>
+							<%= label_tag(:ida_vuelta_ida, "Sólo ida") %>
+							<%= radio_button_tag(:ida_vuelta, "idaVuelta") %>
+							<%= label_tag(:ida_vuelta_vuelta, "Ida y vuelta") %>
+						</div>
+						
+						<div class="field" id="cant_part_normal">
+							<%= label_tag(:participantes, "Cantidad de participantes: ") %>
+							<%= number_field(:cant_participantes, :participantes, in: 2..64, step: 1, value: 2) %>
+						</div>
+						<div class="field" id="cant_part_torneo">
+							<%= label_tag(:participantes_torneo, "Cantidad de participantes: ")%>
+							<%= select_tag(:participantes_torneo, options_for_select([['2',2], ['4',4], ['8',8], ['16',16], ['32',32], ['64',64]])) %>
+						</div>
+
+						<div class="field" id="cant_grupos">
+							<%= label_tag(:grupos, "Cantidad de grupos: ") %>
+							<%= number_field(:cant_grupos, :grupos, in: 2..10, step: 1, value: 2) %>
+						</div>
+						<div class="field">
+							<%= label_tag(:fecha_inicio, "Fecha de inicio: ") %>
+							<%= date_select(:fecha1, :fecha_inicio, :order => [:day, :month, :year], start_year: Date.today.year, end_year: Date.today.year+5) %>
+						</div>
+						<div class="field">
+							<%= label_tag(:fecha_fin, "Fecha de término: ") %>
+							<%= date_select(:fecha2, :fecha_fin, :order => [:day, :month, :year], start_year: Date.today.year, end_year: Date.today.year+5) %>
+						</div>
+						<div class="field">
+							<%= label_tag(:privacidad, "¿Competencia privada?") %>
+							<%= radio_button_tag(:privacidad, "si") %>
+							<%= label_tag(:privacidad_si, "Si") %>
+							<%= radio_button_tag(:privacidad, "no", true) %>
+							<%= label_tag(:privacidad_no, "No") %>
+						</div>
+						<br><br><br>
+						<div id="botonEnviar" class="col-md-offset-10">
+							<%= submit_tag("Siguiente", id: 'botonEnviar', onsubmit: 'return validaFormularios(this)') %>
+						</div>
+					<% end %>
+				</div>
+			</div>
 		</div>
-		<div class="panel-body">
+		<div class="col-md-5">
+			<div class="formulario-creacion panel panel-default">
+				<div class="panel-heading">
+					<h3>Descripción tipos de competencia</h3>
+				</div>
+				<div class="panel-body">
+					<div role="tabpanel">
 
-			<% if @alert %>
-				<div class="alert alert-danger" role="alert">
-					<b>ERROR: </b><%= @alert %>
-				</div>
-			<% end %>
-			<%= form_tag("/nueva_competencia/paso1", method: "post") do %>
-				<div class="field">
-					<%= label_tag(:nombre_competencia, "Nombre de la competencia: ") %>
-					<%= text_field_tag(:nombre_competencia, nil, placeholder: 'Nombre', required: true) %>
-				</div>
-				<div class="field" id="tipo_competencia">
-					<%= label_tag(:tipo, "Tipo de competencia: ")%>
-					<%= radio_button_tag(:tipo, "liga", true) %>
-					<%= label_tag(:tipo_liga, "Liga") %>
-					<%= radio_button_tag(:tipo, "torneo") %>
-					<%= label_tag(:tipo_torneo, "Torneo") %>
-					<%= radio_button_tag(:tipo, "copa")%>
-					<%= label_tag(:tipo_copa, "Copa")%>
-				</div>
-				<div class="field">
-					<%= label_tag(:ida_vuelta, "¿Encuentros de ida y vuelta? ") %>
-					<%= radio_button_tag(:ida_vuelta, "ida", true) %>
-					<%= label_tag(:ida_vuelta_ida, "Sólo ida") %>
-					<%= radio_button_tag(:ida_vuelta, "idaVuelta") %>
-					<%= label_tag(:ida_vuelta_vuelta, "Ida y vuelta") %>
-				</div>
-				
-				<div class="field" id="cant_part_normal">
-					<%= label_tag(:participantes, "Cantidad de participantes: ") %>
-					<%= number_field(:cant_participantes, :participantes, in: 2..64, step: 1, value: 2) %>
-				</div>
-				<div class="field" id="cant_part_torneo">
-					<%= label_tag(:participantes_torneo, "Cantidad de participantes: ")%>
-					<%= select_tag(:participantes_torneo, options_for_select([['2',2], ['4',4], ['8',8], ['16',16], ['32',32], ['64',64]])) %>
-				</div>
+						<!-- Nav tabs -->
+						<ul class="nav nav-tabs" role="tablist">
+							<li role="presentation" class="active"><a href="#Liga" aria-controls="Liga" role="tab" data-toggle="tab">Liga</a></li>
+							<li role="presentation"><a href="#Torneo" aria-controls="Torneo" role="tab" data-toggle="tab">Torneo</a></li>
+							<li role="presentation"><a href="#Copa" aria-controls="Copa" role="tab" data-toggle="tab">Copa</a></li>
+						</ul>
 
-				<div class="field" id="cant_grupos">
-					<%= label_tag(:grupos, "Cantidad de grupos: ") %>
-					<%= number_field(:cant_grupos, :grupos, in: 2..10, step: 1, value: 2) %>
+						<!-- Tab panes -->
+						<div class="tab-content">
+							<div role="tabpanel" class="tab-pane fade in active" id="Liga">
+								<div class="center-block">
+									<center>
+										<%= image_tag("liga.jpg", alt: "Liga", class: "img-responsive") %>
+									</center>
+									<div>
+										<p>El torneo corresponde a una serie de encuentros o juegos en los que se enfrentan dos equipos que se eliminan unos a otros progresivamente hasta determinar al ganador.</p>
+										<p>En el caso de que un encuentro termine en empate, el ganador se determinará en tiempo extra o en definición a penales.</p>
+									</div>
+									<div>
+										<b>Ejemplos:</b> Copa Sudamericana, Play Offs.
+									</div>
+								</div class="center-block">
+							</div>
+							<div role="tabpanel" class="tab-pane fade" id="Torneo">
+								<div class="center-block">
+									<center>
+										<%= image_tag("torneo.jpg", alt: "Torneo", class: "img-responsive") %>
+									</center>
+									<div>
+										<p>La liga es el tipo de competencia en la que todos los participantes juegan contra todos los demás obteniendo 3 puntos en caso de obtener una victoria, 1 en caso de empate y 0 en caso de perder.</p> 
+										<p>El ganador es aquel equipo con una mayor cantidad de puntos al disputarse todos los encuentros.</p>
+									</div>
+									<div>
+										<b>Ejemplos:</b> Premier League, Campeonato nacional Chileno.
+									</div>
+								</div class="center-block">
+							</div>
+							<div role="tabpanel" class="tab-pane fade" id="Copa">
+								<div class="center-block">
+									<center>
+										<%= image_tag("copa.jpg", alt: "Copa", class: "img-responsive") %>
+									</center>
+									<div>
+										<p>La copa es una competencia de dos fases, donde la primera de ellas corresponde a una liga y la segunda a un torneo.</p> 
+										<p>En la primera fase, conocida como fase de grupos, una cantidad determinadas de participantes juegan todos contra todos, al igual que en la liga. Al finalizar, los equipos con mayor puntaje pasan a la fase siguiente</p>
+										<p>La segunda fase es una serie de enfrentamientos al estilo torneo, donde se enfrentan los participantes que clasificaron en la primera fase.</p>
+									</div>
+									<div>
+										<b>Ejemplos:</b> Copa Mundial de la FIFA, Copa Libertadores de América.
+									</div>
+								</div class="center-block">
+							</div>
+						</div>
+					</div>
 				</div>
-				<div class="field">
-					<%= label_tag(:fecha_inicio, "Fecha de inicio: ") %>
-					<%= date_select(:fecha1, :fecha_inicio, :order => [:day, :month, :year], start_year: Date.today.year, end_year: Date.today.year+5) %>
-				</div>
-				<div class="field">
-					<%= label_tag(:fecha_fin, "Fecha de término: ") %>
-					<%= date_select(:fecha2, :fecha_fin, :order => [:day, :month, :year], start_year: Date.today.year, end_year: Date.today.year+5) %>
-				</div>
-				<div class="field">
-					<%= label_tag(:privacidad, "¿Competencia privada?") %>
-					<%= radio_button_tag(:privacidad, "si") %>
-					<%= label_tag(:privacidad_si, "Si") %>
-					<%= radio_button_tag(:privacidad, "no", true) %>
-					<%= label_tag(:privacidad_no, "No") %>
-				</div>
-
-				<div id="botonEnviar">
-					<%= submit_tag("Siguiente", id: 'botonEnviar', onsubmit: 'return validaFormularios(this)') %>
-				</div>
-			<% end %>
+			</div>
 		</div>
 	</div>
 </div>

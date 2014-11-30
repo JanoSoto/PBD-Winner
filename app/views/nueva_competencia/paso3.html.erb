@@ -1,42 +1,110 @@
+<style type="text/css">
+	
+	.formulario-creacion{
+		height: 32em;
+		overflow-y: auto;
+		overflow-x: hidden;
+	}
+
+</style>
 
 <div class="container">
-	<div>
-		<% if $participante%>
-			<% $participantes.each do |participante| %>
-			<p><%= participante['Nombre'] %> - <%= participante['Pais'] %></p>
-			<% end %>
-		<% end %>
-	</div>
+	<div class="row">
+		<div class="col-md-7">
+			<div class="formulario-creacion panel panel-default">
+				<div class="panel-heading">
+					<h3>Crear Competencia - Participantes - Paso 3</h3>
+				</div>
+				<div class="panel-body">
+					<div class="alert alert-info" role="alert">
+						<p>Consideraciones con respecto al archivo a cargar: </p>
+						<ul>
+							<li>Puede ser formato csv, Excel o Libre Oficce</li>
+							<li>La primera fila del archivo debe contener las cabeceras <b>Nombre</b> y <b>Pais</b>, tal cual están escritos</li>
+							<li>Ningún campo puede estar vacío</li>
+						</ul>
+					</div>
+					<% if @alert %>
+						<div class="alert alert-danger" role="alert">
+							<b>ERROR: </b><%= @alert %>
+						</div>
+					<% end %>
+					<%= form_tag("/nueva_competencia/paso3", multipart: true) do %>
+						<div class="field">
+							<%= label_tag(:participantes, "Subir la plantilla con los participantes (Instituciones deportivas)") %> <br>
+							<%= file_field_tag(:archivo, required: true) %>
+						</div>
 
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h3>Crear Competencia - Participantes - Paso 3</h3>
-		</div>
-		<div class="panel-body">
-			<div class="alert alert-info" role="alert">
-				<p>Consideraciones con respecto al archivo a cargar: </p>
-				<ul>
-					<li>Puede ser formato csv, Excel o Libre Oficce</li>
-					<li>La primera fila del archivo debe contener las cabeceras <b>Nombre</b> y <b>Pais</b>, tal cual están escritos</li>
-					<li>Ningún campo puede estar vacío</li>
-				</ul>
+						<div class="field">
+							<%= submit_tag("Siguiente") %>
+						</div>
+
+					<% end %>
+				</div>
 			</div>
-			<% if @alert %>
-				<div class="alert alert-danger" role="alert">
-					<b>ERROR: </b><%= @alert %>
+		</div>
+		<div class="col-md-5">
+			<div class="formulario-creacion panel panel-default">
+				<div class="panel-heading">
+					<h3>Datos ingresados de la competencia</h3>
 				</div>
-			<% end %>
-			<%= form_tag("/nueva_competencia/paso3", multipart: true) do %>
-				<div class="field">
-					<%= label_tag(:participantes, "Subir la plantilla con los participantes (Instituciones deportivas)") %> <br>
-					<%= file_field_tag(:archivo, required: true) %>
+				<div class="panel-body">
+					<table class="table table-bordered table-hover">
+						<tbody>
+							<tr>
+								<td><b>Nombre de la competencia:</b></td>
+								<td><%= $nombre_competencia %></td>
+							</tr>
+							<tr>
+								<td><b>Tipo de competencia:</b></td>
+								<td><%= $tipo_competencia.swapcase %></td>
+							</tr>
+							<tr>
+								<td><b>¿Ida y vuelta?</b></td>
+								<td><%= $ida_vuelta.swapcase %></td>
+							</tr>
+							<tr>
+								<td><b>Cantidad de participantes:</b></td>
+								<td><%= $cant_participantes %></td>
+							</tr>
+							<% if $tipo_competencia == "copa" %>
+								<tr>
+									<td><b>Cantidad de grupos:</b></td>
+									<td><%= $cant_grupos %></td>
+								</tr>
+							<% end %>
+							<tr>
+								<td><b>Fecha de inicio:</b></td>
+								<td><%= $fecha_inicio%></td>
+							</tr>
+							<tr>
+								<td><b>Fecha de fin:</b></td>
+								<td><%= $fecha_fin%></td>
+							</tr>
+							<tr>
+								<td><b>Privacidad:</b></td>
+								<td><%= $privacidad.swapcase %></td>
+							</tr>
+							<tr>
+								<td><b>Árbitros por encuentro:</b></td>
+								<td><%=  $cant_arbitros %></td>
+							</tr>
+							<tr>
+								<td><b>Jugadores por plantel:</b></td>
+								<td><%= $cant_jugadores %></td>
+							</tr>
+							<tr>
+								<td><b>Jugadores titulares:</b></td>
+								<td><%= $cant_titulares %></td>
+							</tr>
+							<tr>
+								<td><b>Jugadores en banca:</b></td>
+								<td><%= $cant_banca %></td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
-
-				<div class="field">
-					<%= submit_tag("Siguiente") %>
-				</div>
-
-			<% end %>
+			</div>
 		</div>
 	</div>
 </div>

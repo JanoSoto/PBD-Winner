@@ -51,7 +51,8 @@
 				
 				<!-- Nav tabs -->
 				<ul class="nav nav-tabs" role="tablist">
-					<li role="presentation" class="active"><a href="#participantes" aria-controls="participantes" role="tab" data-toggle="tab">Participantes</a></li>
+					<li role="presentation" class="active"><a href="#Datos" aria-controls="Datos" role="tab" data-toggle="tab">Datos</a></li>
+					<li role="presentation"><a href="#participantes" aria-controls="participantes" role="tab" data-toggle="tab">Participantes</a></li>
 					<li role="presentation"><a href="#jugadores" aria-controls="jugadores" role="tab" data-toggle="tab">Jugadores</a></li>
 					<li role="presentation"><a href="#entrenadores" aria-controls="entrenadores" role="tab" data-toggle="tab">Entrenadores</a></li>
 					<li role="presentation"><a href="#jueces" aria-controls="jueces" role="tab" data-toggle="tab">Jueces</a></li>
@@ -59,7 +60,63 @@
 
 				<!-- Tab panes -->
 				<div class="tab-content">
-					<div role="tabpanel" class="tab-pane fade in active" id="participantes">
+					<div role="tabpanel" class="tab-pane fade in active" id="Datos">
+						<table class="table table-bordered table-hover">
+							<tbody>
+							<tr>
+								<td><b>Nombre de la competencia:</b></td>
+								<td><%= $nombre_competencia %></td>
+							</tr>
+							<tr>
+								<td><b>Tipo de competencia:</b></td>
+								<td><%= $tipo_competencia.swapcase %></td>
+							</tr>
+							<tr>
+								<td><b>¿Ida y vuelta?</b></td>
+								<td><%= $ida_vuelta.swapcase %></td>
+							</tr>
+							<tr>
+								<td><b>Cantidad de participantes:</b></td>
+								<td><%= $cant_participantes %></td>
+							</tr>
+							<% if $tipo_competencia == "copa" %>
+								<tr>
+									<td><b>Cantidad de grupos:</b></td>
+									<td><%= $cant_grupos %></td>
+								</tr>
+							<% end %>
+							<tr>
+								<td><b>Fecha de inicio:</b></td>
+								<td><%= $fecha_inicio%></td>
+							</tr>
+							<tr>
+								<td><b>Fecha de fin:</b></td>
+								<td><%= $fecha_fin%></td>
+							</tr>
+							<tr>
+								<td><b>Privacidad:</b></td>
+								<td><%= $privacidad.swapcase %></td>
+							</tr>
+							<tr>
+								<td><b>Árbitros por encuentro:</b></td>
+								<td><%=  $cant_arbitros %></td>
+							</tr>
+							<tr>
+								<td><b>Jugadores por plantel:</b></td>
+								<td><%= $cant_jugadores %></td>
+							</tr>
+							<tr>
+								<td><b>Jugadores titulares:</b></td>
+								<td><%= $cant_titulares %></td>
+							</tr>
+							<tr>
+								<td><b>Jugadores en banca:</b></td>
+								<td><%= $cant_banca %></td>
+							</tr>
+						</tbody>
+						</table>
+					</div>
+					<div role="tabpanel" class="tab-pane fade" id="participantes">
 						<table class="table table-bordered table-hover">
 							<thead>
 								<tr>
