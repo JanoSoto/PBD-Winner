@@ -1,5 +1,5 @@
 class NuevaCompetenciaController < ApplicationController
-	
+	@volver = false
 	def paso1
 		$nombre_competencia = params[:nombre_competencia]
 		$tipo_competencia = params[:tipo]
@@ -56,7 +56,10 @@ class NuevaCompetenciaController < ApplicationController
 		if request.post?
 			if $cant_jugadores.to_i < $cant_titulares.to_i + $cant_banca.to_i
 				@alert = 'La cantidad máxima de jugadores es inferior a la cantidad de jugadores titulares más la cantidad de jugadores en banca'	
+			elsif @volver
+				redirect_to action: 'paso1'
 			else
+				puts "------------------------"
 				redirect_to action: 'paso3'
 			end
 		end
