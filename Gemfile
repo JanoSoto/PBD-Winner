@@ -48,3 +48,5 @@ gem 'cancancan'
 gem 'roo'
 
 gem 'twitter-bootstrap-rails'
+
+gem 'font-awesome-rails'

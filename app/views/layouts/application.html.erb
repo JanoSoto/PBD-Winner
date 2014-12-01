@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= content_for?(:title) ? yield(:title) : "Winner" %></title>
+    <title><%= content_for?(:title) ? yield(:title) : "Winner | gestor de competencias deportivas" %></title>
     <%= csrf_meta_tags %>
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
@@ -37,26 +37,60 @@
     <%= javascript_include_tag "application" %>
   </head>
   <body>
-
     <div class="navbar navbar-default navbar-static-top">
       <div class="container">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#">Winner</a>
-        <div class="navbar-collapse collapse navbar-responsive-collapse">
-          <ul class="nav navbar-nav">
-            <li><%= link_to "Link1", "/path1"  %></li>
-            <li><%= link_to "Link2", "/path2"  %></li>
-            <li><%= link_to "Link3", "/path3"  %></li>
-          </ul>
-        </div>
+        <a class="navbar-brand" href="/">Winner</a>
+	<% if user_signed_in? %>
+	   Inicio de sesión como <%= current_user.email %>. No eres tú?
+	   <%= link_to "Cerrar sesión", destroy_user_session_path, :method => :delete %>
+	<% else %>
+           <a href="/users/sign_in"><button type="button" class="btn btn-default navbar-btn pull-right">Iniciar sesión</button></a>
+<%= link_to 'Registrarse', new_user_registration_path %>
+	<% end %>
+	
       </div>
     </div>
 
-    <div class="container-fluid">
+<div class="sliderHome">
+    <div id="wSlider" class="carousel slide columns" data-interval="3000" data-ride="carousel">
+    	<!-- Carousel indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#wSlider" data-slide-to="0" class="active"></li>
+            <li data-target="#wSlider" data-slide-to="1"></li>
+            <li data-target="#wSlider" data-slide-to="2"></li>
+        </ol>   
+       <!-- Carousel items -->
+        <div class="carousel-inner article-tree">
+            <div class="active item item1">
+                <div class="carousel-caption">
+                  <h3>Aliquam sit amet</h3>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </div>
+            </div>
+            <div class="item item2">
+                <div class="carousel-caption">
+                  <h3>Praesent commodo cursus magna</h3>
+                  <p>Aliquam sit amet gravida nibh, facilisis gravida odio.</p>
+                </div>
+            </div>
+            <div class="item item3">
+                <div class="carousel-caption">
+                  <h3>Lorem ipsum dolor sit amet</h3>
+                  <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Carousel nav -->
+        <a class="carousel-control left" href="#wSlider" data-slide="prev">
+	<i class="iconCenter fa fa-chevron-left"></i>
+        </a>
+        <a class="carousel-control right" href="#wSlider" data-slide="next">
+	<i class="iconCenter fa fa-chevron-right"></i>
+        </a>
+    </div>
+</div>
+
+    <div class="container">
       <div class="row">
         <div class="col-lg-9">
           <%= bootstrap_flash %>
@@ -64,22 +98,23 @@
         </div>
         <div class="col-lg-3">
           <div class="well sidebar-nav">
-            <h3>Sidebar</h3>
             <ul class="nav nav-list">
-              <li class="nav-header">Sidebar</li>
-              <li><%= link_to "Link1", "/path1"  %></li>
-              <li><%= link_to "Link2", "/path2"  %></li>
-              <li><%= link_to "Link3", "/path3"  %></li>
+              <li class="nav-header">Publicidad</li>
+              <li><%= link_to image_tag("anuncio1.jpg", :class=>"img-responsive img-rounded anuncio", :alt=>"Pepsi Twist"), "/path1"  %></li>
+              <li><%= link_to image_tag("anuncio2.jpg", :class=>"img-responsive img-rounded anuncio", :alt=>"Nike Training"), "/path1"  %></li>
+              <li><%= link_to image_tag("anuncio3.jpg", :class=>"img-responsive img-rounded anuncio", :alt=>"Adidas history"), "/path1"  %></li>
             </ul>
           </div><!--/.well -->
         </div><!--/span-->
       </div><!--/row-->
 
-      <footer>
-        <p>&copy; Company 2014</p>
-      </footer>
-
     </div> <!-- /container -->
+
+      <footer class="footer">
+	<div class="container">
+	   <p class="text-muted">&copy; Winner 2014</p>
+	</div>
+      </footer>
 
   </body>
 </html>
