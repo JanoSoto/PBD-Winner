@@ -2,6 +2,7 @@ class NuevaCompetenciaController < ApplicationController
 	@volver = false
 	def paso1
 		$nombre_competencia = params[:nombre_competencia]
+		$desc_competencia = params[:desc_competencia]
 		$tipo_competencia = params[:tipo]
 		$ida_vuelta = params[:ida_vuelta]
 		if $tipo_competencia == "torneo"
@@ -15,6 +16,10 @@ class NuevaCompetenciaController < ApplicationController
 		if $tipo_competencia == "copa"
 			if params[:cant_grupos]
 				$cant_grupos = params[:cant_grupos]['grupos']
+			end
+
+			if params[:cant_clasificados]
+				$cant_clasificados = params[:cant_clasificados]['clasificados']
 			end
 		else
 			$cant_grupos = 0
@@ -33,6 +38,10 @@ class NuevaCompetenciaController < ApplicationController
 		if request.post?
 			if $fecha_fin < $fecha_inicio
 				@alert = 'La fecha de inicio es posterior a la fecha de fin. Por favor, ingrese un fecha valida'
+			elsif $cant_grupos != 0 && $cant_participantes % $cant_grupos != 0
+				@alert = 'La cantidad de grupos no coincide con la cantidad de participantes. Es estrictamente necesario que cada grupo tenga la misma cantidad de participantes.'
+			elsif $cant_grupos != 0 && $cant_clasificados.to_i > $cant_participantes.to_i/$cant_grupos.to_i-1
+				@alert = 'La cantidad de clasificados no puede ser mayor o igual que la cantidad de participantes por grupo'
 			else
 				redirect_to action: 'paso2'
 			end
@@ -49,6 +58,9 @@ class NuevaCompetenciaController < ApplicationController
 		if params[:titulares]
 			$cant_titulares = params[:titulares]['jug_titulares']
 		end
+		if params[:cambios]
+			$cant_cambios = params[:cambios]['cant_cambios']
+		end
 		if params[:banca]
 			$cant_banca = params[:banca]['jug_banca']
 		end
@@ -56,10 +68,11 @@ class NuevaCompetenciaController < ApplicationController
 		if request.post?
 			if $cant_jugadores.to_i < $cant_titulares.to_i + $cant_banca.to_i
 				@alert = 'La cantidad máxima de jugadores es inferior a la cantidad de jugadores titulares más la cantidad de jugadores en banca'	
+			elsif $cant_cambios.to_i > $cant_banca.to_i
+				@alert = 'La cantidad máxima de cambios permitidos es mayor que la cantidad de jugadores en banca'
 			elsif @volver
 				redirect_to action: 'paso1'
 			else
-				puts "------------------------"
 				redirect_to action: 'paso3'
 			end
 		end
@@ -97,7 +110,7 @@ class NuevaCompetenciaController < ApplicationController
 				end
 			end
 		end
-
+		$cant_participantes = $participantes.length
 		if request.post?
 			if campo_vacio
 				@alert = 'Hay campos del archivo que están vacíos. Por favor revise que el archivo siga el formato adecuado'
@@ -285,9 +298,95 @@ class NuevaCompetenciaController < ApplicationController
 		end
 	end
 	
+
 	def paso8
 		if request.post?
+			#INSERT A LA TABLA COMPETENCIA
+			competencia = Competencia.new
+			competencia.nombre_comp = $nombre_competencia
+			competencia.descripcion_comp = $desc_competencia
+			competencia.tipo_comp = $tipo_competencia
+			if $ida_vuelta == "ida"
+				competencia.ida_vuelta_comp = true
+			else
+				competencia.ida_vuelta_comp = false
+			end
+			competencia.cant_part_comp = $cant_participantes.to_i
+			competencia.fecha_inicio_comp = $fecha_inicio
+			competencia.fecha_termino_comp = $fecha_fin
+			competencia.cant_grupos_comp = $cant_grupos.to_i
+			if $tipo_competencia == "liga"
+				if $cant_participantes % 2 == 0
+					$cant_fases = $cant_participantes.to_i-1
+				else
+					$cant_fases = $cant_participantes
+				end
+			elsif $tipo_competencia == "torneo"	
+				$cant_fases = Math.log($cant_participantes.to_i)/Math.log(2)				
+			else #COPA
+				if $cant_grupos.to_i > 1
+					cant_por_grupo = $cant_participantes.to_i/$cant_grupos.to_i-1
+					cant_por_fase = $cant_clasificados.to_i*$cant_grupos.to_i
+					for i in(0..6)
+						if cant_por_fase == 2**i
+							$cant_fases = cant_por_fase + cant_por_grupo
+						elsif cant_por_fase > 2**i && cant_por_fase < 2**(i+1)
+							$cant_fases = 2**(i+1) + cant_por_grupo
+						end
+					end
+				end
+			end
+			if $ida_vuelta != "ida"
+				$cant_fases= $cant_fases.to_i * 2
+			end
+			competencia.cant_fases_comp = $cant_fases
+			competencia.cant_arbitros_comp = $cant_arbitros.to_i
+			competencia.cant_jug_tit = $cant_titulares.to_i
+			competencia.cant_jug_ban = $cant_banca.to_i
+			competencia.cant_max_jug_comp = $cant_jugadores.to_i
+			competencia.cant_mod_comp = $cant_cambios.to_i
+			if $privacidad == "si"
+				competencia.privacidad_comp = true
+			else
+				competencia.privacidad_comp = false
+			end
+			competencia.organizador_id = 0 #AGREGAAAAAAAAR!!!!
+			competencia.save
+
+			#puts '***************************************'
+			#GENERACIÓN DEL FIXTURE
+			if $tipo_competencia == "liga"
+				id_etapa_anterior = nil
+				for i in(1..$cant_fases.to_i)
+					etapa = Etapa.new
+					etapa.nombre_etp = "Fecha "+i.to_s
+					etapa.tipo_etp = 0
+					etapa.competencia_id = competencia.id
+					etapa.etapa_id = id_etapa_anterior
+					etapa.save
+					id_etapa_anterior = etapa.id
+				end
+
+				@fixture = Array.new($cant_participantes.to_i/2) {Array.new($cant_fases.to_i)}
+				for i in(0..$cant_participantes.to_i/2)
+					for j in(0..$cant_fases.to_i)
+						@fixture.push(i.to_s+","+j.to_s)
+					end
+				end
+
+				puts @fixture
+
+			elsif $tipo_competencia == "torneo"
+
+			else
+
+			end
+					
 			redirect_to action: 'paso9'
 		end
+	end
+
+	def paso9
+
 	end
 end

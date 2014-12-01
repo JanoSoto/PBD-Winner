@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141128233602) do
+ActiveRecord::Schema.define(version: 20141201223927) do
 
   create_table "competencia", force: true do |t|
     t.string   "nombre_comp"
@@ -36,6 +36,36 @@ ActiveRecord::Schema.define(version: 20141128233602) do
 
   add_index "competencia", ["organizador_id"], name: "index_competencia_on_organizador_id", using: :btree
 
+  create_table "encuentros", force: true do |t|
+    t.datetime "fecha_enc"
+    t.integer  "tiro_libre_local_enc"
+    t.integer  "tiro_esquina_local_enc"
+    t.integer  "fuera_de_juego_local_enc"
+    t.integer  "tiro_libre_visita_enc"
+    t.integer  "tiro_esquina_visita_enc"
+    t.integer  "fuera_de_juego_visita_enc"
+    t.string   "duracion_enc"
+    t.integer  "cant_publico_enc"
+    t.integer  "gol_local_enc"
+    t.integer  "gol_visita_enc"
+    t.boolean  "def_penales_enc"
+    t.string   "estado_enc"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "etapas", force: true do |t|
+    t.string   "nombre_etp"
+    t.integer  "tipo_etp"
+    t.integer  "competencia_id"
+    t.integer  "etapa_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "etapas", ["competencia_id"], name: "index_etapas_on_competencia_id", using: :btree
+  add_index "etapas", ["etapa_id"], name: "index_etapas_on_etapa_id", using: :btree
+
   create_table "organizadors", force: true do |t|
     t.string   "nombre_org"
     t.string   "apellido_pat_org"
@@ -45,6 +75,22 @@ ActiveRecord::Schema.define(version: 20141128233602) do
     t.date     "fecha_nac_org"
     t.string   "email_org"
     t.string   "foto_org"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "participantes", force: true do |t|
+    t.string   "nombre_par"
+    t.string   "pais_par"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "recintos", force: true do |t|
+    t.string   "nombre_rec"
+    t.string   "ciudad_rec"
+    t.string   "pais_rec"
+    t.integer  "capacidad_rec"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

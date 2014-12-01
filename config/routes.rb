@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :encuentros
+
+  resources :recintos
+
   resources :organizadors
 
   get 'nueva_competencia/paso1'
@@ -24,6 +28,9 @@ Rails.application.routes.draw do
 
   get 'nueva_competencia/paso8'
   post 'nueva_competencia/paso8'
+
+  get 'nueva_competencia/paso9'
+  post 'nueva_competencia/paso9'
 
   get 'home/index'
 

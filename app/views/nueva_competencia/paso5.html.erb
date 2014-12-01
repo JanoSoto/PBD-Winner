@@ -157,22 +157,3 @@
 		</div>
 	</div>
 </div>
-
-
-<div>
-	<% $participantes.each do |participante| %>
-	<p><%= participante['Nombre'] %> - <%= participante['Pais'] %></p>
-	<% end %>
-</div>
-
-<div>
-	<% $jugadores.each do |jugador| %>
-	<p><%= jugador['Institucion Deportiva'] %> - <%= jugador['Nombre'] %> - <%= jugador['Apellido Paterno'] %> - <%= jugador['Apellido Materno'] %> - <%= jugador['RUT'] %> - <%= jugador['Sexo'] %> - <%= jugador['Fecha nacimiento'] %> - <%= jugador['Email'] %></p>
-	<% end %>
-</div>
-
-<div>
-	<% $entrenadores.each do |entrenador| %>
-	<p><%= entrenador['Institucion Deportiva'] %> - <%= entrenador['Nombre'] %> - <%= entrenador['Apellido Paterno'] %> - <%= entrenador['Apellido Materno'] %> - <%= entrenador['RUT'] %> - <%= entrenador['Sexo'] %> - <%= entrenador['Fecha nacimiento'] %> - <%= entrenador['Email'] %></p>
-	<% end %>
-</div>
