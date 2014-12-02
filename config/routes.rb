@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :jugadors
+
   resources :encuentros
 
   resources :recintos

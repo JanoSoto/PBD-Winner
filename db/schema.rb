@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141201223927) do
+ActiveRecord::Schema.define(version: 20141202153536) do
 
   create_table "competencia", force: true do |t|
     t.string   "nombre_comp"
@@ -35,6 +35,19 @@ ActiveRecord::Schema.define(version: 20141201223927) do
   end
 
   add_index "competencia", ["organizador_id"], name: "index_competencia_on_organizador_id", using: :btree
+
+  create_table "convocatoria", force: true do |t|
+    t.integer  "jugador_id"
+    t.integer  "participante_id"
+    t.date     "fecha_con"
+    t.integer  "duracion_con"
+    t.integer  "num_camiseta_con"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "convocatoria", ["jugador_id"], name: "index_convocatoria_on_jugador_id", using: :btree
+  add_index "convocatoria", ["participante_id"], name: "index_convocatoria_on_participante_id", using: :btree
 
   create_table "encuentros", force: true do |t|
     t.datetime "fecha_enc"
@@ -65,6 +78,19 @@ ActiveRecord::Schema.define(version: 20141201223927) do
 
   add_index "etapas", ["competencia_id"], name: "index_etapas_on_competencia_id", using: :btree
   add_index "etapas", ["etapa_id"], name: "index_etapas_on_etapa_id", using: :btree
+
+  create_table "jugadors", force: true do |t|
+    t.string   "nombre_jug"
+    t.string   "apellido_pat_jug"
+    t.string   "apellido_mat_jug"
+    t.decimal  "rut_jug",          precision: 10, scale: 0
+    t.boolean  "sexo_jug"
+    t.date     "fecha_nac_jug"
+    t.string   "email_jug"
+    t.string   "foto_jug"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "organizadors", force: true do |t|
     t.string   "nombre_org"

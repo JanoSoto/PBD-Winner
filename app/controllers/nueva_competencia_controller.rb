@@ -353,28 +353,69 @@ class NuevaCompetenciaController < ApplicationController
 			competencia.organizador_id = 0 #AGREGAAAAAAAAR!!!!
 			competencia.save
 
+			#INSERT A LA TABLA PARTICIPANTES
+			$participantes.each do |participante|
+				participante_aux = {"nombre_par"=>participante['Nombre'], "pais_par"=>participante['Pais']}
+				Participante.create! participante_aux
+			end
+
 			#puts '***************************************'
 			#GENERACIÓN DEL FIXTURE
 			if $tipo_competencia == "liga"
-				id_etapa_anterior = nil
-				for i in(1..$cant_fases.to_i)
+				#CREACIÓN DE LAS ETAPAS CORRESPONDIENTES
+				id_etapa_siguiente = nil
+				num_fases = $cant_fases.to_i
+				while num_fases > 0
+					puts '-----------------------------------------'
 					etapa = Etapa.new
-					etapa.nombre_etp = "Fecha "+i.to_s
+					etapa.nombre_etp = "Fecha "+num_fases.to_s
 					etapa.tipo_etp = 0
 					etapa.competencia_id = competencia.id
-					etapa.etapa_id = id_etapa_anterior
+					etapa.etapa_id = id_etapa_siguiente
 					etapa.save
-					id_etapa_anterior = etapa.id
+					id_etapa_siguiente = etapa.id
+					num_fases -= 1
 				end
 
-				@fixture = Array.new($cant_participantes.to_i/2) {Array.new($cant_fases.to_i)}
-				for i in(0..$cant_participantes.to_i/2)
-					for j in(0..$cant_fases.to_i)
-						@fixture.push(i.to_s+","+j.to_s)
+				#GENERACIÓN DEL FIXTURE EN UNA MATRIZ
+				$fixture = Array.new($cant_fases.to_i) {Array.new($cant_participantes.to_i/2){Array.new(2)}}
+
+				equipo1 = $cant_participantes.to_i-2
+				equipo2 = 0
+				alterna = true
+				iteracion1 = true
+				$fixture.each do |fecha|
+					fecha.each do |encuentro|
+						if !iteracion1
+							encuentro[0] = $participantes[equipo1]	
+							equipo1 -= 1
+							encuentro[1] = $participantes[equipo2]
+							equipo2 += 1
+						else
+							if alterna							
+								encuentro[0] = $participantes[equipo1]	
+								equipo1 -= 1
+								encuentro[1] = $participantes[$cant_participantes.to_i-1]
+								alterna = false
+							else
+								encuentro[1] = $participantes[equipo1]	
+								equipo1 -= 1
+								encuentro[0] = $participantes[$cant_participantes.to_i-1]
+								alterna = true
+							end
+						end
+
+						if equipo1 < 0
+							equipo1 = $cant_participantes.to_i-2
+						end
+						if equipo2 > $cant_participantes.to_i-2
+							equipo2 = 0
+						end
 					end
+					iteracion1 = false
+					print fecha
 				end
-
-				puts @fixture
+			
 
 			elsif $tipo_competencia == "torneo"
 

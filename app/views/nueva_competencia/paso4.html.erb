@@ -135,19 +135,3 @@
 	</div>
 </div>
 
-
-
-<div>
-	<% #if $participante%>
-		<% $participantes.each do |participante| %>
-		<p><%= participante['Nombre'] %> - <%= participante['Pais'] %></p>
-		<% end %>
-	<% #end %>
-</div>
-
-<div>
-
-	<% $jugadores.each do |jugador| %>
-	<p><%= jugador['Institucion Deportiva'] %> - <%= jugador['Nombre'] %> - <%= jugador['Apellido Paterno'] %> - <%= jugador['Apellido Materno'] %> - <%= jugador['RUT'] %> - <%= jugador['Sexo'] %> - <%= jugador['Fecha nacimiento'] %> - <%= jugador['Email'] %></p>
-	<% end %>
-</div>
