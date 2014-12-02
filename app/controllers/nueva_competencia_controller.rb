@@ -111,6 +111,8 @@ class NuevaCompetenciaController < ApplicationController
 			end
 		end
 		$cant_participantes = $participantes.length
+		$participantes.sort! {|x,y| x['Nombre'] <=> y['Nombre']}
+
 		if request.post?
 			if campo_vacio
 				@alert = 'Hay campos del archivo que están vacíos. Por favor revise que el archivo siga el formato adecuado'
@@ -154,6 +156,9 @@ class NuevaCompetenciaController < ApplicationController
 				end
 			end
 		end
+
+		
+		$jugadores.sort! {|x,y| x['Institucion Deportiva'] <=> y['Institucion Deportiva']}
 
 		if request.post?
 			if campo_vacio
@@ -354,12 +359,51 @@ class NuevaCompetenciaController < ApplicationController
 			competencia.save
 
 			#INSERT A LA TABLA PARTICIPANTES
+			$ids_participantes = Array.new
 			$participantes.each do |participante|
-				participante_aux = {"nombre_par"=>participante['Nombre'], "pais_par"=>participante['Pais']}
-				Participante.create! participante_aux
+				nuevo_participante = Participante.new
+				nuevo_participante.nombre_par = participante['Nombre']
+				nuevo_participante.pais_par = participante['Pais']
+				#participante_aux = {"nombre_par"=>participante['Nombre'], "pais_par"=>participante['Pais']}
+				#Participante.create! participante_aux
+				nuevo_participante.save
+				$ids_participantes.push({'id'=>nuevo_participante.id, 'nombre'=>participante['Nombre']})
 			end
 
-			#puts '***************************************'
+			#INSERT A LA TABLA JUGADOR
+			$ids_jugadores = Array.new
+			$jugadores.each do |jugador|
+				nuevo_jugador = Jugador.new
+				nuevo_jugador.nombre_jug = jugador['Nombre']
+				nuevo_jugador.apellido_pat_jug = jugador['Apellido Paterno']
+				nuevo_jugador.apellido_mat_jug = jugador['Apellido Materno']
+				nuevo_jugador.rut_jug = jugador['RUT']
+				nuevo_jugador.sexo_jug = jugador['Sexo']
+				nuevo_jugador.fecha_nac_jug = jugador['Fecha nacimiento']
+				nuevo_jugador.email_jug = jugador['Email']
+				nuevo_jugador.save
+				$ids_jugadores.push({'id'=>nuevo_jugador.id, 'Institucion Deportiva'=>jugador['Institucion Deportiva']})
+			end
+
+			#INSERT A LA TABLA CONVOCATORIA
+			#RELACIONAMIENTO ENTRE JUGADOR E INSTITUCIÓN DEPORTIVA
+			#ids_jugadores.each do |jugador|
+			#	ids_participantes.each do |institucion|
+			for i in(0..$ids_jugadores.length-1)
+				for j in(0..$ids_participantes.length-1)
+					puts $ids_jugadores[i]
+					puts $ids_participantes[j]
+					puts '---------------------------'
+					if $ids_jugadores[i]['Institucion Deportiva'] == $ids_participantes[j]['nombre']
+						nueva_convocatoria = Convocatoria.new
+						nueva_convocatoria.jugador_id = $ids_jugadores[i]['id']
+						nueva_convocatoria.participante_id = $ids_participantes[j]['id']
+						nueva_convocatoria.save						
+					end
+				end
+			end
+
+
 			#GENERACIÓN DEL FIXTURE
 			if $tipo_competencia == "liga"
 				#CREACIÓN DE LAS ETAPAS CORRESPONDIENTES
