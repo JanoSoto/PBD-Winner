@@ -1,3 +1,4 @@
+ # encoding: UTF-8
 class NuevaCompetenciaController < ApplicationController
 	@volver = false
 	def paso1
@@ -583,6 +584,24 @@ class NuevaCompetenciaController < ApplicationController
 	end
 
 	def paso9
+
+	end
+	
+	def enviarCorreo
+
+		$jugadores.each do |jugador|
+
+			EnviarCorreo.correo_notificacion(jugador['Email']).deliver
+		end
+		$entrenadores.each do |entrenador|
+
+			EnviarCorreo.correo_notificacion(entrenador['Email']).deliver
+		end
+		$jueces.each do |juez|
+
+			EnviarCorreo.correo_notificacion(juez['Email']).deliver
+		end
+		
 
 	end
 end

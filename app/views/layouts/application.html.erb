@@ -41,11 +41,11 @@
       <div class="container">
         <a class="navbar-brand" href="/">Winner</a>
 	<% if user_signed_in? %>
-	   Inicio de sesión como <%= current_user.email %>. No eres tú?
-	   <%= link_to "Cerrar sesión", destroy_user_session_path, :method => :delete %>
+	   <%= link_to "Cerrar sesión", destroy_user_session_path, :method => :delete , class: "btn btn-default navbar-btn pull-right"%>
+      <p class="navbar-text pull-right">Bienvenido <%= current_user.username %> </p>
 	<% else %>
            <a href="/users/sign_in"><button type="button" class="btn btn-default navbar-btn pull-right">Iniciar sesión</button></a>
-<%= link_to 'Registrarse', new_user_registration_path %>
+<%= link_to 'Registrarse', new_user_registration_path,class: "btn btn-default navbar-btn pull-right" %>
 	<% end %>
 	
       </div>
