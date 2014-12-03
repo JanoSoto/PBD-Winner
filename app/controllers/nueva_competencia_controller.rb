@@ -472,7 +472,7 @@ class NuevaCompetenciaController < ApplicationController
 			#GENERACIÓN DEL FIXTURE
 			if $tipo_competencia == "liga"
 				#CREACIÓN DE LAS ETAPAS CORRESPONDIENTES
-				ids_etapas = Array.new
+				$ids_etapas = Array.new
 				id_etapa_siguiente = nil
 				num_fases = $cant_fases.to_i
 				while num_fases > 0
@@ -483,7 +483,7 @@ class NuevaCompetenciaController < ApplicationController
 					etapa.etapa_id = id_etapa_siguiente
 					etapa.save
 					id_etapa_siguiente = etapa.id
-					ids_etapas.push(etapa.id)
+					$ids_etapas.push(etapa.id)
 					num_fases -= 1
 				end
 
@@ -528,8 +528,8 @@ class NuevaCompetenciaController < ApplicationController
 				end
 
 
+				i = 0
 				$fixture.each do |fecha|
-					i = 0
 					fecha.each do |encuentro|
 						nuevo_encuentro = Encuentro.new
 						ids_participantes.each do |participante|
@@ -546,7 +546,7 @@ class NuevaCompetenciaController < ApplicationController
 						end
 						
 						nuevo_encuentro.competencia_id = competencia.id
-						nuevo_encuentro.etapa_id = ids_etapas[i]
+						nuevo_encuentro.etapa_id = $ids_etapas[i]
 						nuevo_encuentro.estado_enc = "POR JUGAR"
 						nuevo_encuentro.save
 					end
