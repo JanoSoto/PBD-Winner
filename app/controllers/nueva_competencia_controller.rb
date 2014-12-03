@@ -552,25 +552,6 @@ class NuevaCompetenciaController < ApplicationController
 					end
 					i += 1
 				end
-				#for i in(0..$cant_participantes.to_i/2-1)
-				#	for j in(0..$cant_fases.to_i-1)
-				#		nuevo_encuentro = Encuentro.new
-				#		ids_participantes.each do |participante|
-				#			print $fixture[0][0][0]
-				#			if $fixture[i][j][0]["Nombre"] == participante['nombre']
-				#				nuevo_encuentro.id_local = participante['id']
-				#			end
-				#		end
-				#		ids_participantes.each do |participante|
-				#			if $fixture[i][j][1]["Nombre"] == participante['nombre']
-				#				nuevo_encuentro.id_visita = participante['id']
-				#			end
-				#		end
-				#		nuevo_encuentro.competencia_id = competencia.id
-				#		nuevo_encuentro.etapa_id = ids_etapas[j]
-				#		nuevo_encuentro.estado_enc = "POR JUGAR"
-				#	end
-				#end
 			
 
 			elsif $tipo_competencia == "torneo"
