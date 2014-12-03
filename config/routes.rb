@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  resources :participante_competencia
+
+  resources :rol_tecnicos
+
+  resources :tecnicos
+
   resources :jugadors
 
   resources :encuentros

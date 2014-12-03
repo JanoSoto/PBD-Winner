@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141202153536) do
+ActiveRecord::Schema.define(version: 20141202203956) do
 
   create_table "competencia", force: true do |t|
     t.string   "nombre_comp"
@@ -105,6 +105,27 @@ ActiveRecord::Schema.define(version: 20141202153536) do
     t.datetime "updated_at"
   end
 
+  create_table "participante_competencia", force: true do |t|
+    t.integer  "competencia_id"
+    t.integer  "participante_id"
+    t.integer  "enc_ganados_par_com"
+    t.integer  "enc_perdidos_par_com"
+    t.integer  "goles_favor_par_com"
+    t.integer  "goles_contra_par_com"
+    t.integer  "cant_tarjetas_amar_par_com"
+    t.integer  "cant_tarjetas_roja_par_com"
+    t.integer  "cant_puntos_par_com"
+    t.integer  "cant_enc_jugados_par_com"
+    t.integer  "grupo_par_com"
+    t.integer  "total_enc_grupo_par_com"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "enc_empatados_par_com"
+  end
+
+  add_index "participante_competencia", ["competencia_id"], name: "index_participante_competencia_on_competencia_id", using: :btree
+  add_index "participante_competencia", ["participante_id"], name: "index_participante_competencia_on_participante_id", using: :btree
+
   create_table "participantes", force: true do |t|
     t.string   "nombre_par"
     t.string   "pais_par"
@@ -112,11 +133,52 @@ ActiveRecord::Schema.define(version: 20141202153536) do
     t.datetime "updated_at"
   end
 
+  create_table "recinto_competencia", force: true do |t|
+    t.integer  "recinto_id"
+    t.integer  "competencia_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "recinto_competencia", ["competencia_id"], name: "index_recinto_competencia_on_competencia_id", using: :btree
+  add_index "recinto_competencia", ["recinto_id"], name: "index_recinto_competencia_on_recinto_id", using: :btree
+
   create_table "recintos", force: true do |t|
     t.string   "nombre_rec"
     t.string   "ciudad_rec"
     t.string   "pais_rec"
     t.integer  "capacidad_rec"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "rol_cuerpo_tecnicos", force: true do |t|
+    t.integer  "rol_tecnico_id"
+    t.integer  "participante_competencium_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "tecnico_id"
+  end
+
+  add_index "rol_cuerpo_tecnicos", ["participante_competencium_id"], name: "index_rol_cuerpo_tecnicos_on_participante_competencium_id", using: :btree
+  add_index "rol_cuerpo_tecnicos", ["rol_tecnico_id"], name: "index_rol_cuerpo_tecnicos_on_rol_tecnico_id", using: :btree
+  add_index "rol_cuerpo_tecnicos", ["tecnico_id"], name: "index_rol_cuerpo_tecnicos_on_tecnico_id", using: :btree
+
+  create_table "rol_tecnicos", force: true do |t|
+    t.string   "tipo_rol_tec"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "tecnicos", force: true do |t|
+    t.string   "nombre_tec"
+    t.string   "apellido_pat_tec"
+    t.string   "apellido_mat_tec"
+    t.decimal  "rut_tec",          precision: 10, scale: 0
+    t.boolean  "sexo_tec"
+    t.date     "fecha_nac_tec"
+    t.string   "email_tec"
+    t.string   "foto_tec"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

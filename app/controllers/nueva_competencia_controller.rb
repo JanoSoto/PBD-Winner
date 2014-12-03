@@ -112,6 +112,8 @@ class NuevaCompetenciaController < ApplicationController
 			end
 		end
 		$cant_participantes = $participantes.length
+		$participantes.sort! {|x,y| x['Nombre'] <=> y['Nombre']}
+
 		if request.post?
 			if campo_vacio
 				@alert = 'Hay campos del archivo que están vacíos. Por favor revise que el archivo siga el formato adecuado'
@@ -155,6 +157,9 @@ class NuevaCompetenciaController < ApplicationController
 				end
 			end
 		end
+
+		
+		$jugadores.sort! {|x,y| x['Institucion Deportiva'] <=> y['Institucion Deportiva']}
 
 		if request.post?
 			if campo_vacio
@@ -354,20 +359,122 @@ class NuevaCompetenciaController < ApplicationController
 			competencia.organizador_id = 0 #AGREGAAAAAAAAR!!!!
 			competencia.save
 
+
 			#INSERT A LA TABLA PARTICIPANTES
+			ids_participantes = Array.new
+			ids_part_comp = Array.new
 			$participantes.each do |participante|
-				participante_aux = {"nombre_par"=>participante['Nombre'], "pais_par"=>participante['Pais']}
-				Participante.create! participante_aux
+				nuevo_participante = Participante.new
+				nuevo_participante.nombre_par = participante['Nombre']
+				nuevo_participante.pais_par = participante['Pais']
+				#participante_aux = {"nombre_par"=>participante['Nombre'], "pais_par"=>participante['Pais']}
+				#Participante.create! participante_aux
+				nuevo_participante.save
+
+				#INSERT A LA TABLA PARTICIPANTE COMPETENCIA
+				nueva_part_competencia = ParticipanteCompetencium.new
+				nueva_part_competencia.competencia_id = competencia.id
+				nueva_part_competencia.participante_id = nuevo_participante.id
+				nueva_part_competencia.enc_ganados_par_com = 0
+				nueva_part_competencia.enc_perdidos_par_com = 0
+				nueva_part_competencia.enc_empatados_par_com = 0
+				nueva_part_competencia.goles_favor_par_com = 0
+				nueva_part_competencia.goles_contra_par_com = 0
+				nueva_part_competencia.cant_tarjetas_amar_par_com = 0
+				nueva_part_competencia.cant_tarjetas_roja_par_com = 0
+				nueva_part_competencia.cant_puntos_par_com
+				nueva_part_competencia.cant_enc_jugados_par_com = 0
+				nueva_part_competencia.grupo_par_com = 0
+				nueva_part_competencia.total_enc_grupo_par_com = 0
+				nueva_part_competencia.save
+				ids_part_comp.push({'id'=>nueva_part_competencia.id, 'nombre'=>participante['Nombre']})
+
+				ids_participantes.push({'id'=>nuevo_participante.id, 'nombre'=>participante['Nombre']})
 			end
 
-			#puts '***************************************'
+			#INSERT A LA TABLA JUGADOR
+			ids_jugadores = Array.new
+			$jugadores.each do |jugador|
+				nuevo_jugador = Jugador.new
+				nuevo_jugador.nombre_jug = jugador['Nombre']
+				nuevo_jugador.apellido_pat_jug = jugador['Apellido Paterno']
+				nuevo_jugador.apellido_mat_jug = jugador['Apellido Materno']
+				nuevo_jugador.rut_jug = jugador['RUT']
+				nuevo_jugador.sexo_jug = jugador['Sexo']
+				nuevo_jugador.fecha_nac_jug = jugador['Fecha nacimiento']
+				nuevo_jugador.email_jug = jugador['Email']
+				nuevo_jugador.save
+				ids_jugadores.push({'id'=>nuevo_jugador.id, 'Institucion Deportiva'=>jugador['Institucion Deportiva']})
+			end
+
+			#INSERT A LA TABLA CONVOCATORIA
+			#RELACIONAMIENTO ENTRE JUGADOR E INSTITUCIÓN DEPORTIVA
+			for i in(0..ids_jugadores.length-1)
+				for j in(0..ids_participantes.length-1)
+					if ids_jugadores[i]['Institucion Deportiva'] == ids_participantes[j]['nombre']
+						nueva_convocatoria = Convocatoria.new
+						nueva_convocatoria.jugador_id = ids_jugadores[i]['id']
+						nueva_convocatoria.participante_id = ids_participantes[j]['id']
+						nueva_convocatoria.save						
+					end
+				end
+			end
+
+			#INSERT A LA TABLA RECINTO
+			ids_recintos = Array.new
+			$recintos.each do |recinto|
+				nuevo_recinto = Recinto.new
+				nuevo_recinto.nombre_rec = recinto['Nombre']
+				nuevo_recinto.ciudad_rec = recinto['Ciudad']
+				nuevo_recinto.pais_rec = recinto['Pais']
+				nuevo_recinto.capacidad_rec = recinto['Capacidad']
+				nuevo_recinto.save
+				ids_recintos.push(nuevo_recinto.id)
+			end
+
+			#INSERT A LA TABLA RECINTO_COMPETENCIA
+			ids_recintos.each do |recinto|
+				nuevo_rec_comp = RecintoCompetencia.new
+				nuevo_rec_comp.recinto_id = recinto
+				nuevo_rec_comp.competencia_id = competencia.id
+				nuevo_rec_comp.save
+			end
+
+			#INSERT A LA TABLA TECNICO
+			ids_tecnicos = Array.new
+			$entrenadores.each do |entrenador|
+				nuevo_tecnico = Tecnico.new
+				nuevo_tecnico.nombre_tec = entrenador['Nombre']
+				nuevo_tecnico.apellido_pat_tec = entrenador['Apellido Paterno']
+				nuevo_tecnico.apellido_mat_tec = entrenador['Apellido Materno']
+				nuevo_tecnico.rut_tec = entrenador['RUT']
+				nuevo_tecnico.sexo_tec = entrenador['Sexo']
+				nuevo_tecnico.fecha_nac_tec = entrenador['Fecha nacimiento']
+				nuevo_tecnico.email_tec = entrenador['Email']
+				nuevo_tecnico.save
+				ids_tecnicos.push({'id'=>nuevo_tecnico.id, 'Institucion Deportiva'=>entrenador['Institucion Deportiva']})
+
+				#INSERT A LA TABLA ROL_CUERPO_TECNICO
+				
+				ids_part_comp.each do |part_comp|
+					if part_comp['nombre'] == entrenador['Institucion Deportiva']
+						nuevo_rol_cuerpo_tecnico = RolCuerpoTecnico.new
+						nuevo_rol_cuerpo_tecnico.participante_competencium_id = part_comp['id']
+						nuevo_rol_cuerpo_tecnico.tecnico_id = nuevo_tecnico.id
+						nuevo_rol_cuerpo_tecnico.save
+					end
+				end
+				
+			end
+
+			
+
 			#GENERACIÓN DEL FIXTURE
 			if $tipo_competencia == "liga"
 				#CREACIÓN DE LAS ETAPAS CORRESPONDIENTES
 				id_etapa_siguiente = nil
 				num_fases = $cant_fases.to_i
 				while num_fases > 0
-					puts '-----------------------------------------'
 					etapa = Etapa.new
 					etapa.nombre_etp = "Fecha "+num_fases.to_s
 					etapa.tipo_etp = 0
@@ -414,7 +521,6 @@ class NuevaCompetenciaController < ApplicationController
 						end
 					end
 					iteracion1 = false
-					print fecha
 				end
 			
 
