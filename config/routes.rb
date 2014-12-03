@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :equipos
+
   resources :participante_competencia
 
   resources :rol_tecnicos

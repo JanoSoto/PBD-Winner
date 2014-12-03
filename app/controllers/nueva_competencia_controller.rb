@@ -472,6 +472,7 @@ class NuevaCompetenciaController < ApplicationController
 			#GENERACIÓN DEL FIXTURE
 			if $tipo_competencia == "liga"
 				#CREACIÓN DE LAS ETAPAS CORRESPONDIENTES
+				$ids_etapas = Array.new
 				id_etapa_siguiente = nil
 				num_fases = $cant_fases.to_i
 				while num_fases > 0
@@ -482,6 +483,7 @@ class NuevaCompetenciaController < ApplicationController
 					etapa.etapa_id = id_etapa_siguiente
 					etapa.save
 					id_etapa_siguiente = etapa.id
+					$ids_etapas.push(etapa.id)
 					num_fases -= 1
 				end
 
@@ -491,15 +493,11 @@ class NuevaCompetenciaController < ApplicationController
 				equipo1 = $cant_participantes.to_i-2
 				equipo2 = 0
 				alterna = true
-				iteracion1 = true
+				
 				$fixture.each do |fecha|
+					iteracion1 = true
 					fecha.each do |encuentro|
-						if !iteracion1
-							encuentro[0] = $participantes[equipo1]	
-							equipo1 -= 1
-							encuentro[1] = $participantes[equipo2]
-							equipo2 += 1
-						else
+						if iteracion1
 							if alterna							
 								encuentro[0] = $participantes[equipo1]	
 								equipo1 -= 1
@@ -511,6 +509,12 @@ class NuevaCompetenciaController < ApplicationController
 								encuentro[0] = $participantes[$cant_participantes.to_i-1]
 								alterna = true
 							end
+							iteracion1 = false
+						else
+							encuentro[0] = $participantes[equipo1]	
+							equipo1 -= 1
+							encuentro[1] = $participantes[equipo2]
+							equipo2 += 1
 						end
 
 						if equipo1 < 0
@@ -522,6 +526,51 @@ class NuevaCompetenciaController < ApplicationController
 					end
 					iteracion1 = false
 				end
+
+
+				i = 0
+				$fixture.each do |fecha|
+					fecha.each do |encuentro|
+						nuevo_encuentro = Encuentro.new
+						ids_participantes.each do |participante|
+							#print $fixture[0][0][0]
+							if encuentro[0]["Nombre"] == participante['nombre']
+								nuevo_encuentro.id_local = participante['id']
+							end
+						end
+
+						ids_participantes.each do |participante|
+							if encuentro[1]["Nombre"] == participante['nombre']
+								nuevo_encuentro.id_visita = participante['id']
+							end
+						end
+						
+						nuevo_encuentro.competencia_id = competencia.id
+						nuevo_encuentro.etapa_id = $ids_etapas[i]
+						nuevo_encuentro.estado_enc = "POR JUGAR"
+						nuevo_encuentro.save
+					end
+					i += 1
+				end
+				#for i in(0..$cant_participantes.to_i/2-1)
+				#	for j in(0..$cant_fases.to_i-1)
+				#		nuevo_encuentro = Encuentro.new
+				#		ids_participantes.each do |participante|
+				#			print $fixture[0][0][0]
+				#			if $fixture[i][j][0]["Nombre"] == participante['nombre']
+				#				nuevo_encuentro.id_local = participante['id']
+				#			end
+				#		end
+				#		ids_participantes.each do |participante|
+				#			if $fixture[i][j][1]["Nombre"] == participante['nombre']
+				#				nuevo_encuentro.id_visita = participante['id']
+				#			end
+				#		end
+				#		nuevo_encuentro.competencia_id = competencia.id
+				#		nuevo_encuentro.etapa_id = ids_etapas[j]
+				#		nuevo_encuentro.estado_enc = "POR JUGAR"
+				#	end
+				#end
 			
 
 			elsif $tipo_competencia == "torneo"
