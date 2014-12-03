@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141202203956) do
+ActiveRecord::Schema.define(version: 20141203211552) do
 
   create_table "competencia", force: true do |t|
     t.string   "nombre_comp"
@@ -65,7 +65,27 @@ ActiveRecord::Schema.define(version: 20141202203956) do
     t.string   "estado_enc"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "etapa_id"
+    t.integer  "competencia_id"
+    t.integer  "recinto_id"
+    t.integer  "id_local"
+    t.integer  "id_visita"
   end
+
+  add_index "encuentros", ["competencia_id"], name: "index_encuentros_on_competencia_id", using: :btree
+  add_index "encuentros", ["etapa_id"], name: "index_encuentros_on_etapa_id", using: :btree
+  add_index "encuentros", ["recinto_id"], name: "index_encuentros_on_recinto_id", using: :btree
+
+  create_table "equipos", force: true do |t|
+    t.integer  "encuentro_id"
+    t.integer  "convocatoria_id"
+    t.string   "equ_citado"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "equipos", ["convocatoria_id"], name: "index_equipos_on_convocatoria_id", using: :btree
+  add_index "equipos", ["encuentro_id"], name: "index_equipos_on_encuentro_id", using: :btree
 
   create_table "etapas", force: true do |t|
     t.string   "nombre_etp"
@@ -196,8 +216,8 @@ ActiveRecord::Schema.define(version: 20141202203956) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "role"
     t.string   "username"
+    t.string   "role"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
